@@ -1,0 +1,35 @@
+name: Sync Egg Mirrors
+
+on:
+  schedule:
+    # Every 30 minutes
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-eggs
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Mirror org *-Eggs repos
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync egg mirrors
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/sync-eggs.sh

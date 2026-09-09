@@ -1,0 +1,42 @@
+# Fast mirror of the production image layout for launcher behavior tests.
+# Same paths, same non-root uid (988), same signal contract - without the
+# multi-minute build of the full multi-runtime image.
+FROM debian:bookworm-slim
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    USER=container \
+    HOME=/home/container \
+    PYTHONUNBUFFERED=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates curl wget git jq procps xz-utils unzip tar \
+        nodejs npm python3 \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd -g 988 container 2>/dev/null || true \
+    && useradd -d /home/container -m -u 988 -g 988 container 2>/dev/null || true \
+    && mkdir -p /opt/runtimes /opt/runtimes/node/bin /opt/potenfyr /home/container /server /app /mnt/server /tmp \
+    && chmod -R 777 /opt/runtimes /home/container /server /app /mnt/server /tmp \
+    && chown -R 988:988 /opt/potenfyr \
+    && ln -sf /usr/bin/node /opt/runtimes/node/bin/node 2>/dev/null || true
+
+COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY run.sh /run.sh
+COPY run.sh /usr/local/bin/run.sh
+COPY install.sh /install.sh
+COPY install.sh /usr/local/bin/install.sh
+COPY install-runtime.sh /usr/local/bin/install-runtime.sh
+COPY resolve-version.sh /usr/local/bin/resolve-version.sh
+COPY tests/t5b-driver.py /t5b-driver.py
+
+RUN sed -i 's/\r$//' /entrypoint.sh /run.sh /install.sh /usr/local/bin/*.sh \
+    && chmod +x /entrypoint.sh /run.sh /usr/local/bin/*.sh
+
+USER container
+ENV USER=container HOME=/home/container
+WORKDIR /home/container
+
+STOPSIGNAL SIGTERM
+CMD ["/bin/bash", "/entrypoint.sh"]

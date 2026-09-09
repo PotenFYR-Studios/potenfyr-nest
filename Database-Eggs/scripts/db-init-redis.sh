@@ -1,0 +1,352 @@
+#!/usr/bin/env bash
+# =============================================================================
+#  PotenFYR Studios - In-Memory & Caching Engine Handler (Redis, Valkey, KeyDB, Dragonfly, Memcached)
+#  Includes Performance Multi-Threading, Memory Tuning, and Security Isolation
+#  Honors DB_VERSION: prefers exact binaries provisioned into bin/.
+# =============================================================================
+
+find_inmemory_bin() {
+    local name="$1"
+    local p
+    for p in "${SERVER_DIR}/bin/${name}"; do
+        [ -x "${p}" ] && { printf '%s' "${p}"; return 0; }
+    done
+    command -v "${name}" 2>/dev/null || return 1
+}
+
+# Quote a value for safe use as a redis.conf directive argument. Double quotes
+# protect spaces and shell meta-characters; backslashes and quotes inside the
+# value are escaped. Redis/Valkey/KeyDB conf parsing honors these escapes.
+pf_redis_conf_quote() {
+    local v="${1:-}"
+    v="${v//\\/\\\\}"
+    v="${v//\"/\\\"}"
+    printf '"%s"' "${v}"
+}
+
+# sed replacement string escape (& and delimiter are special).
+pf_sed_escape() {
+    local v="${1:-}"
+    v="${v//\\/\\\\}"
+    v="${v//&/\\&}"
+    printf '%s' "${v}"
+}
+
+# Idempotently set a single-value directive in the generated redis.conf:
+# replaces the existing line, or appends when missing. Never leaks values
+# into the console.
+pf_redis_conf_set() { # pf_redis_conf_set <conf> <directive> <value...>
+    local conf="$1" key="$2" val="$3"
+    local esc_key esc_val
+    esc_key=$(pf_sed_escape "${key}")
+    esc_val=$(pf_sed_escape "${val}")
+    if grep -qE "^${key}[[:space:]]" "${conf}" 2>/dev/null; then
+        sed -i "s/^${key}[[:space:]].*/${key} ${esc_val}/" "${conf}" 2>/dev/null || return 1
+    else
+        printf '%s %s\n' "${key}" "${val}" >> "${conf}"
+    fi
+}
+
+# ACL user management (Redis >= 6, Valkey >= 6, KeyDB >= 6.3):
+# DB_USERNAMES/DB_PASSWORDS work on the in-memory family exactly like on SQL
+# engines - one ACL user per name with full command access, credentials
+# recorded once in .db-users/credentials, removed users dropped. Applied at
+# first readiness of the daemon via pf_redis_apply_acls. Runs on EVERY boot:
+# ACL users live in daemon memory only, so restarts must re-assert them.
+pf_redis_major_version() { # pf_redis_major_version <server-bin>
+    "$1" --version 2>/dev/null | grep -oE '[0-9]+' | head -n1
+}
+
+pf_redis_apply_acls() { # pf_redis_apply_acls <cli-bin> <port>
+    local cli="$1" port="$2"
+    command -v pf_users_plan >/dev/null 2>&1 || return 0
+    # PF_USERS_MODE=multi OR an explicit DB_USERNAMES list opts in. On restart
+    # boots where the primary user became the legacy single account, mode is
+    # 'legacy' but DB_USERNAMES still names the intended set - honor it. The
+    # historical legacy single account (no DB_USERNAMES at all) is untouched.
+    local users_csv=""
+    if [ "${PF_USERS_MODE:-legacy}" = "multi" ] && [ -n "${PF_USERS:-}" ]; then
+        users_csv="${PF_USERS}"
+    elif [ -n "${DB_USERNAMES:-}" ]; then
+        users_csv="${DB_USERNAMES}"
+    fi
+    [ -n "${users_csv}" ] || return 0
+    case "${PROJECT_TYPE}" in
+        redis|valkey|keydb) : ;;
+        *) pf_users_note_unsupported; return 0 ;;
+    esac
+    # ACL SETUSER needs Redis-family >= 6
+    local maj
+    maj=$(pf_redis_major_version "$(pf_redis_server_bin)" 2>/dev/null || echo 0)
+    case "${maj}" in ''|*[!0-9]*) return 0 ;; esac
+    [ "${maj}" -ge 6 ] || { pf_users_note_unsupported; return 0; }
+
+    [ -n "${DB_PASSWORD:-}" ] || { warn "ACL provisioning skipped (no primary password)."; return 0; }
+    local auth=(-h 127.0.0.1 -p "${port}" -a "${DB_PASSWORD}" --no-auth-warning)
+
+    local u pw stored
+    for u in ${users_csv//,/ }; do
+        if pf_users_is_new "${u}"; then
+            pw=$(pf_users_stored_password "${u}")
+            [ -n "${pw}" ] || pw="${DB_PASSWORD}"
+            if "${cli}" "${auth[@]}" ACL SETUSER "${u}" on ">${pw}" "~*" "&*" "+@all" >/dev/null 2>&1; then
+                ok "ACL user '${u}' provisioned (owns nothing destructive; full command set)."
+            else
+                warn "ACL user '${u}' could not be provisioned."
+            fi
+        else
+            # Existing user: re-assert (idempotent), never touch the password.
+            stored=$(pf_users_stored_password "${u}")
+            if [ -n "${stored}" ]; then
+                "${cli}" "${auth[@]}" ACL SETUSER "${u}" on "~*" "&*" "+@all" >/dev/null 2>&1 || true
+            fi
+        fi
+    done
+
+    # Drop users that were removed from DB_USERNAMES (their keys persist in
+    # the shared keyspace; ACL users are metadata-only).
+    local prev
+    for prev in $(pf_users_prev_list); do
+        printf ',%s,' "${users_csv}" | grep -q ",${prev}," && continue
+        if "${cli}" "${auth[@]}" ACL DELUSER "${prev}" >/dev/null 2>&1; then
+            log "Removed ACL user '${prev}' (data preserved)."
+        fi
+    done
+    return 0
+}
+
+pf_redis_server_bin() {
+    case "${PROJECT_TYPE}" in
+        valkey) find_inmemory_bin "valkey-server" || true ;;
+        keydb)  find_inmemory_bin "keydb-server" || true ;;
+        *)      find_inmemory_bin "redis-server" || true ;;
+    esac
+}
+
+init_redis_family() {
+    local data_dir="${DATA_DIR:-${SERVER_DIR}/data}"
+    local conf_dir="${SERVER_DIR}/config"
+    local redis_conf="${conf_dir}/redis.conf"
+
+    mkdir -p "${data_dir}" "${conf_dir}" "${SERVER_DIR}/logs"
+    chmod 700 "${data_dir}" 2>/dev/null || true
+
+    # Run dynamic performance auto-tuning
+    if command -v tune_redis_family >/dev/null 2>&1; then
+        tune_redis_family
+    else
+        export TUNED_REDIS_MAXMEMORY="${SERVER_MEMORY:-1024}mb"
+        export TUNED_REDIS_IO_THREADS="2"
+        export TUNED_REDIS_TCP_BACKLOG="511"
+        export TUNED_REDIS_ACTIVE_DEFRAG="no"
+    fi
+
+    # activedefrag requires jemalloc-with-defrag builds. Our provisioned
+    # source builds support it; distro packages (Ubuntu redis 6.x) do NOT and
+    # treat the directive as FATAL. Emit it only when we own the binary.
+    local defrag_bin=""
+    case "${PROJECT_TYPE}" in
+        valkey)      defrag_bin="${SERVER_DIR}/bin/valkey-server" ;;
+        keydb)       defrag_bin="${SERVER_DIR}/bin/keydb-server" ;;
+        *)           defrag_bin="${SERVER_DIR}/bin/redis-server" ;;
+    esac
+    local defrag_line=""
+    if [ -x "${defrag_bin}" ] && [ "${TUNED_REDIS_ACTIVE_DEFRAG:-no}" = "yes" ]; then
+        defrag_line="activedefrag yes
+active-defrag-ignore-bytes 100mb
+active-defrag-threshold-lower 10
+active-defrag-threshold-upper 100"
+    fi
+    # SECURITY_HARDENING=1 (default) disables DEBUG-style commands;
+    # =0 keeps them available for development sessions.
+    local harden_line=""
+    if [ "${SECURITY_HARDENING:-1}" != "0" ]; then
+        harden_line="rename-command DEBUG \"\""
+    fi
+    # Conf values that may contain spaces/specials are quoted for redis.conf.
+    local require_line="" masterauth_line=""
+    [ -n "${DB_PASSWORD:-}" ] && require_line="requirepass $(pf_redis_conf_quote "${DB_PASSWORD}")"
+    [ -n "${DB_ROOT_PASSWORD:-}" ] && masterauth_line="masterauth $(pf_redis_conf_quote "${DB_ROOT_PASSWORD}")"
+
+    if [ ! -f "${redis_conf}" ]; then
+        log "Generating performance-tuned & hardened ${PROJECT_TYPE^^} configuration..."
+        cat <<EOF > "${redis_conf}"
+# PotenFYR Studios - In-Memory Engine Config
+port ${SERVER_PORT}
+bind 0.0.0.0
+protected-mode no
+daemonize no
+logfile ""
+dir ${data_dir}
+pidfile ${SERVER_DIR}/redis.pid
+databases ${REDIS_DATABASES:-16}
+
+# Memory Optimization & Eviction
+maxmemory ${TUNED_REDIS_MAXMEMORY}
+maxmemory-policy ${MAXMEMORY_POLICY:-allkeys-lru}
+maxmemory-samples 7
+
+# Multi-Threading & I/O Performance
+io-threads ${TUNED_REDIS_IO_THREADS}
+io-threads-do-reads yes
+tcp-backlog ${TUNED_REDIS_TCP_BACKLOG:-511}
+${defrag_line}
+# Non-Blocking Background Deletion (High Performance)
+lazyfree-lazy-eviction yes
+lazyfree-lazy-expire yes
+lazyfree-lazy-server-del yes
+replica-lazy-flush yes
+
+# Persistence (RDB & AOF) - save cadence scaled to instance size
+save 900 1
+save 300 10
+save 60 10000
+dbfilename dump.rdb
+appendonly ${ENABLE_AOF:-yes}
+appendfilename "appendonly.aof"
+appendfsync everysec
+no-appendfsync-on-rewrite yes
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+
+# Security & Authentication
+${require_line}
+${masterauth_line}
+
+# Security Hardening (Disable dangerous debugging commands in production)
+${harden_line}
+EOF
+        ok "Created performance-tuned ${redis_conf}"
+    else
+        # Keep the generated configuration in sync with current variables:
+        # port, memory tuning, defrag directives, and credentials. All edits
+        # are escape-safe (values with &, |, / or spaces survive).
+        pf_redis_conf_set "${redis_conf}" "port" "${SERVER_PORT}"
+        pf_redis_conf_set "${redis_conf}" "maxmemory" "${TUNED_REDIS_MAXMEMORY}"
+        pf_redis_conf_set "${redis_conf}" "io-threads" "${TUNED_REDIS_IO_THREADS}"
+        pf_redis_conf_set "${redis_conf}" "tcp-backlog" "${TUNED_REDIS_TCP_BACKLOG:-511}"
+        # Keep defrag directives in sync with the binary that will run:
+        # strip always, re-add only when our jemalloc build is in use.
+        sed -i "/^activedefrag/d; /^active-defrag-/d" "${redis_conf}" 2>/dev/null || true
+        if [ -x "${defrag_bin}" ] && [ "${TUNED_REDIS_ACTIVE_DEFRAG:-no}" = "yes" ]; then
+            printf '\nactivedefrag yes\nactive-defrag-ignore-bytes 100mb\nactive-defrag-threshold-lower 10\nactive-defrag-threshold-upper 100\n' >> "${redis_conf}"
+        fi
+        if [ -n "${DB_PASSWORD:-}" ]; then
+            pf_redis_conf_set "${redis_conf}" "requirepass" "$(pf_redis_conf_quote "${DB_PASSWORD}")"
+        fi
+        if [ -n "${DB_ROOT_PASSWORD:-}" ]; then
+            pf_redis_conf_set "${redis_conf}" "masterauth" "$(pf_redis_conf_quote "${DB_ROOT_PASSWORD}")"
+        fi
+    fi
+}
+
+stop_redis_family() {
+    local pid="$1"
+    local cli_bin
+    cli_bin=$(find_inmemory_bin "redis-cli") || cli_bin=""
+
+    # Gracefully save and shutdown via CLI if accessible
+    if [ -n "${cli_bin}" ] && [ "${PROJECT_TYPE}" != "memcached" ]; then
+        "${cli_bin}" -h 127.0.0.1 -p "${SERVER_PORT}" ${DB_PASSWORD:+-a "${DB_PASSWORD}"} --no-auth-warning shutdown save >/dev/null 2>&1 || \
+        "${cli_bin}" -h 127.0.0.1 -p "${SERVER_PORT}" ${DB_PASSWORD:+-a "${DB_PASSWORD}"} --no-auth-warning shutdown nosave >/dev/null 2>&1 || true
+    fi
+
+    # Forward SIGTERM to daemon process
+    if kill -0 "${pid}" 2>/dev/null; then
+        kill -TERM "${pid}" 2>/dev/null || true
+    fi
+}
+
+start_redis_family() {
+    local conf_dir="${SERVER_DIR}/config"
+    local redis_conf="${conf_dir}/redis.conf"
+    local data_dir="${DATA_DIR:-${SERVER_DIR}/data}"
+
+    # Distro-extracted binaries may need bundled shared libraries (libssl etc.)
+    if [ -d "${SERVER_DIR}/bin/lib-extra" ]; then
+        export LD_LIBRARY_PATH="${SERVER_DIR}/bin/lib-extra:${LD_LIBRARY_PATH:-}"
+    fi
+
+    # Self-healing check: if configuration is missing, run init
+    if [ ! -f "${redis_conf}" ]; then
+        warn "Configuration missing. Initializing ${PROJECT_TYPE^^} config..."
+        init_redis_family
+    fi
+
+    local daemon_pid=""
+
+    case "${PROJECT_TYPE}" in
+        dragonfly)
+            local df_bin
+            df_bin=$(find_inmemory_bin "dragonfly") || {
+                error "Dragonfly binary not found."
+                fail "Dragonfly binary is unavailable."
+            }
+            local pw_arg=""
+            [ -n "${DB_PASSWORD:-}" ] && pw_arg="--requirepass=${DB_PASSWORD}"
+            local actual_version
+            actual_version=$("${df_bin}" --version 2>/dev/null | grep -oE '[0-9]+(\.[0-9]+)+' | head -n1)
+            log "Starting Dragonfly ${actual_version:+v${actual_version} }on 0.0.0.0:${SERVER_PORT} (MaxMemory: ${TUNED_REDIS_MAXMEMORY:-${SERVER_MEMORY}MB})..."
+            "${df_bin}" --port="${SERVER_PORT}" --dir="${data_dir}" --maxmemory="${TUNED_REDIS_MAXMEMORY:-${SERVER_MEMORY}MB}" ${pw_arg} ${EXTRA_ARGS:-} < /dev/null &
+            daemon_pid=$!
+            ;;
+        keydb)
+            local kd_bin
+            kd_bin=$(find_inmemory_bin "keydb-server") || {
+                error "KeyDB binary 'keydb-server' not found."
+                fail "KeyDB binary is unavailable."
+            }
+            log "Starting KeyDB on 0.0.0.0:${SERVER_PORT} (Threads: ${TUNED_REDIS_IO_THREADS:-2})..."
+            "${kd_bin}" "${redis_conf}" ${EXTRA_ARGS:-} < /dev/null &
+            daemon_pid=$!
+            ;;
+        valkey)
+            local vk_bin
+            vk_bin=$(find_inmemory_bin "valkey-server") || {
+                error "Valkey binary 'valkey-server' not found."
+                fail "Valkey binary is unavailable."
+            }
+            log "Starting Valkey on 0.0.0.0:${SERVER_PORT}..."
+            "${vk_bin}" "${redis_conf}" ${EXTRA_ARGS:-} < /dev/null &
+            daemon_pid=$!
+            ;;
+        memcached)
+            local mc_bin
+            mc_bin=$(find_inmemory_bin "memcached") || {
+                error "Memcached binary not found."
+                fail "Memcached binary is unavailable."
+            }
+            log "Starting Memcached on 0.0.0.0:${SERVER_PORT}..."
+            "${mc_bin}" -p "${SERVER_PORT}" -m "${SERVER_MEMORY:-1024}" -u "$(id -un 2>/dev/null || echo container)" ${EXTRA_ARGS:-} < /dev/null &
+            daemon_pid=$!
+            ;;
+        *) # redis
+            local rs_bin
+            rs_bin=$(find_inmemory_bin "redis-server") || {
+                error "Redis binary 'redis-server' not found."
+                fail "Redis binary is unavailable."
+            }
+            local actual_version
+            actual_version=$("${rs_bin}" --version 2>/dev/null | grep -oE '[0-9]+(\.[0-9]+)+' | head -n1)
+            log "Starting Redis ${actual_version:+v${actual_version} }on 0.0.0.0:${SERVER_PORT} (MaxMemory: ${TUNED_REDIS_MAXMEMORY:-auto}, IO Threads: ${TUNED_REDIS_IO_THREADS:-auto})..."
+            "${rs_bin}" "${redis_conf}" ${EXTRA_ARGS:-} < /dev/null &
+            daemon_pid=$!
+            ;;
+    esac
+
+    # Multi-user ACL provisioning (waits for readiness internally, so it is
+    # safe to run right after spawn; no-op for single-user/legacy mode and
+    # engines without an ACL model such as Dragonfly/Memcached). Runs on every
+    # boot because ACL users are daemon-memory-only and vanish on restart.
+    if [ "${PROJECT_TYPE}" != "memcached" ]; then
+        local acl_cli
+        acl_cli=$(find_inmemory_bin "redis-cli") \
+            || acl_cli=$(find_inmemory_bin "valkey-cli") \
+            || acl_cli=$(find_inmemory_bin "keydb-cli") || acl_cli=""
+        if [ -n "${acl_cli}" ] && [ -n "${PF_USERS:-}${DB_USERNAMES:-}" ]; then
+            ( pf_redis_apply_acls "${acl_cli}" "${SERVER_PORT}" ) &
+        fi
+    fi
+
+    supervise_daemon "${daemon_pid}" "stop_redis_family"
+}

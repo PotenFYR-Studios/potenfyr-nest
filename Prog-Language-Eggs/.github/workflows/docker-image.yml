@@ -1,0 +1,79 @@
+name: Build and Publish Multi-Language Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: potenfyr-studios/prog-language-eggs
+
+# ONE image, ONE tag. Every runtime ships inside a single multi-arch image;
+# language choice happens at startup via egg variables, not at build time.
+jobs:
+  # Fast behavior suite: boots the launcher in a docker mirror of the real
+  # image layout and drives panel lifecycle events (start/stop/kill/restart,
+  # console-text stop, crash diagnostics, multi-process sweep, multi-port apps,
+  # startup-value pinning). Blocks publish on failure.
+  behavior-tests:
+    name: Launcher behavior tests (docker)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run panel behavior test suite
+        run: bash tests/panel-test.sh
+
+  build-and-push:
+    name: Build and publish multi-arch image
+    needs: behavior-tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU for multi-architecture emulation
+        uses: docker/setup-qemu-action@v3
+        with:
+          # Must cover EVERY platform passed to build-push below, otherwise
+          # emulated RUN steps fail with "exec format error" (arm/v7 case).
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push single Multi-Language image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          # amd64 (standard nodes), arm64 (Apple/Ampere/RPi64), arm/v7 (SBC-hosted panels).
+          # Other host arches still work: runtimes self-provision on demand via
+          # install-runtime.sh, which supports ppc64le/s390x/riscv64 upstreams too.
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          build-args: |
+            RUNTIME_VARIANT=all
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          # Always build from a CLEAN slate: no stale layer caches are reused,
+          # so every published tag reflects the exact committed sources.
+          no-cache: true

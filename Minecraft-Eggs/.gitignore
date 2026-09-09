@@ -1,0 +1,38 @@
+# Logs and rotated logs
+*.log
+*.log.old
+*.old
+
+# Launcher persisted settings
+.multi-mc.conf
+.potenfyr/
+
+# Server runtime data
+server.jar
+world/
+world_nether/
+world_the_end/
+libraries/
+logs/
+crash-reports/
+versions/
+cache/
+eula.txt
+usercache.json
+whitelist.json
+ops.json
+banned-players.json
+banned-ips.json
+
+# Unix args (Forge/NeoForge generated at runtime)
+unix_args.txt
+
+# Java runtimes downloaded at runtime
+java/
+jre/
+jdk/
+.java/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db

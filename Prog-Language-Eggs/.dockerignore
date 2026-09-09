@@ -1,0 +1,58 @@
+# =============================================================
+#  Docker ignore — keeps the build context minimal & clean.
+#  Only the runtime scripts + egg definition are copied into
+#  the image; everything else stays out of the context.
+# =============================================================
+
+# Git & repo metadata
+.git
+.gitignore
+.gitattributes
+.github
+
+# Docs & licensing (not needed in image)
+README.md
+LICENSE
+*.md
+docs/
+
+# Egg definitions & templates (host-side only)
+egg-*.json
+eggs/
+templates/
+
+# Tests & scratch
+test-*
+scratch/
+tmp/
+
+# Runtime data, dependencies & artifacts from local runs
+# (testing happens in Docker with the instance mounted from outside the repo,
+#  so none of these should ever exist here — ignored as a safety net)
+node_modules/
+__pycache__/
+.venv/
+venv/
+target/
+dist/
+build/
+.next/
+coverage/
+.logs/
+.environments/
+.runtimes/
+.local/
+.cache/
+.potenfyr/
+.multi-prog.conf
+.env
+*.log
+
+# Editor / OS junk
+.idea/
+.vscode/
+.vs/
+*.swp
+*~
+.DS_Store
+Thumbs.db

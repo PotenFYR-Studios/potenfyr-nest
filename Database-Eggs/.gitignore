@@ -1,0 +1,64 @@
+# ---- Runtime data (created inside server containers at startup) ----
+data/
+logs/
+run/
+bin/
+.runtimes/
+.environments/
+.potenfyr/
+opt/
+socket/
+.logs/
+*.sock
+*.sock.lock
+*.pid
+*.log
+*.old
+
+# ---- Credentials / secrets ----
+.env
+.env.*
+!.env.example
+.db_credentials
+credentials.txt
+.multi-db.conf
+*.pem
+*.key
+
+# ---- Build artifacts & archives ----
+*.tar.gz
+*.tgz
+*.zip
+*.deb
+*.rpm
+dist/
+build/
+out/
+
+# ---- Package managers / runtimes ----
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+vendor/
+
+# ---- OS & Editor junk ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# Smoke-test scratch files
+.fake_*.sh
+.fake_stdin.txt
+.fake_console_case.sh
+.wtest.sh
+
+.rtk/
+CLAUDE.md
+
+# ---- Local helper tooling (not part of the public image/test surface) ----
+.tools/
