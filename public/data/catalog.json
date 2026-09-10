@@ -1,6 +1,6 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-10T17:35:15Z",
+  "generated_at": "2026-09-10T19:12:39Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
@@ -14,9 +14,9 @@
       "forks": 0,
       "homepage": "https://potenfyr.in",
       "language": "Shell",
-      "license": "MIT",
+      "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-09T23:03:19Z",
+      "pushed_at": "2026-09-10T19:12:29Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "6184edb258a549cd445be37f3ede02aa635ab4c1",
+      "upstream_sha": "f4fd24214294d406939932897afca874c51e51f3",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -205,9 +205,9 @@
       "forks": 0,
       "homepage": "https://potenfyr.in",
       "language": "Shell",
-      "license": "MIT",
+      "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-09T09:14:38Z",
+      "pushed_at": "2026-09-10T19:12:31Z",
       "repo": "Minecraft-Eggs",
       "stars": 1,
       "topics": [
@@ -231,7 +231,7 @@
         "velocity"
       ],
       "url": "https://github.com/PotenFYR-Studios/Minecraft-Eggs",
-      "upstream_sha": "8b11cd9edb406cff4807ee2b9e1a9c8e4a81b171",
+      "upstream_sha": "560bfdc0750258d9c08b0e609933fab2c8687c1d",
       "eggs": [
         {
           "path": "egg-minecraft-multi.json",
@@ -433,9 +433,9 @@
       "forks": 0,
       "homepage": "https://potenfyr.in",
       "language": "Shell",
-      "license": "MIT",
+      "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-09T23:20:48Z",
+      "pushed_at": "2026-09-10T19:12:37Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -455,7 +455,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "8785231dfed43be73564ce94b031c90d86b5822f",
+      "upstream_sha": "f5d68247802c64c680371fc4fec06f55a186657a",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
@@ -686,18 +686,26 @@
     },
     {
       "default_branch": "main",
-      "description": "",
+      "description": "Host any shell - incoming, tunneled, reversed, encrypted, covert, web or debug - from one panel egg. Credentials are the only mandatory input. Everything else is optional.",
       "forks": 0,
-      "homepage": "",
+      "homepage": "https://potenfyr-studios.github.io/Shell-Eggs/",
       "language": "Shell",
-      "license": "Apache-2.0",
+      "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-10T17:35:15Z",
+      "pushed_at": "2026-09-10T19:12:39Z",
       "repo": "Shell-Eggs",
-      "stars": 0,
-      "topics": [],
+      "stars": 1,
+      "topics": [
+        "bash",
+        "eggs",
+        "nest",
+        "potenfyr",
+        "pterdoactyl",
+        "reverse-shell",
+        "shell"
+      ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "21bb6cbfacdc136f2480852306fb97ce4aae8718",
+      "upstream_sha": "f0222fe91956f8dbf9f68ab07e3b92908524111f",
       "eggs": [
         {
           "path": "egg-shell-multi.json",
