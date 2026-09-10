@@ -31,7 +31,7 @@ carries every engine in one image and installs the one you pick on demand.
 > to this repository.
 
 <!-- NEST:START:stats -->
-> 🥚 **3** collections · **3** eggs · **103** variables: generated `2026-09-09T23:20:48Z`, refreshed by every sync run.
+> 🥚 **4** collections · **4** eggs · **127** variables: generated `2026-09-10T17:35:15Z`, refreshed by every sync run.
 <!-- NEST:END:stats -->
 
 ## 🪄 Why multi eggs?
@@ -65,6 +65,7 @@ Auto-discovered from the org (any repo whose name ends in `-Eggs`):
 | [Database-Eggs](https://github.com/PotenFYR-Studios/Database-Eggs) | One egg. Every database. Every version. Every panel. Production-ready multi-database eggs for Pterodactyl, Pelican, Feather, Wisp, and Docker. | [![Stars](https://img.shields.io/github/stars/PotenFYR-Studios/Database-Eggs?style=flat-square&logo=github&labelColor=1c1e26&color=eac54f)](https://github.com/PotenFYR-Studios/Database-Eggs/stargazers) | [![Last push](https://img.shields.io/github/last-commit/PotenFYR-Studios/Database-Eggs?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/Database-Eggs/commits) |
 | [Minecraft-Eggs](https://github.com/PotenFYR-Studios/Minecraft-Eggs) | Universal Minecraft egg for Pterodactyl, Pelican, and Feather Panel. Supports Vanilla, Paper, Purpur, Fabric, Forge, NeoForge, Velocity, Bedrock, and all 18+ server types. | [![Stars](https://img.shields.io/github/stars/PotenFYR-Studios/Minecraft-Eggs?style=flat-square&logo=github&labelColor=1c1e26&color=eac54f)](https://github.com/PotenFYR-Studios/Minecraft-Eggs/stargazers) | [![Last push](https://img.shields.io/github/last-commit/PotenFYR-Studios/Minecraft-Eggs?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/Minecraft-Eggs/commits) |
 | [Prog-Language-Eggs](https://github.com/PotenFYR-Studios/Prog-Language-Eggs) | One egg. One image. Every language. A production-grade hosting platform that installs, updates, compiles and runs 50+ programming languages inside your container - across Pterodactyl, Pelican, Feather Panel, PufferPanel, Jexactyl, Wisp, Emerald, Kubernetes, Fly.io, Railway, Render | [![Stars](https://img.shields.io/github/stars/PotenFYR-Studios/Prog-Language-Eggs?style=flat-square&logo=github&labelColor=1c1e26&color=eac54f)](https://github.com/PotenFYR-Studios/Prog-Language-Eggs/stargazers) | [![Last push](https://img.shields.io/github/last-commit/PotenFYR-Studios/Prog-Language-Eggs?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/Prog-Language-Eggs/commits) |
+| [Shell-Eggs](https://github.com/PotenFYR-Studios/Shell-Eggs) |  | [![Stars](https://img.shields.io/github/stars/PotenFYR-Studios/Shell-Eggs?style=flat-square&logo=github&labelColor=1c1e26&color=eac54f)](https://github.com/PotenFYR-Studios/Shell-Eggs/stargazers) | [![Last push](https://img.shields.io/github/last-commit/PotenFYR-Studios/Shell-Eggs?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/Shell-Eggs/commits) |
 <!-- NEST:END:catalog -->
 
 Each egg row links its definition and there is always a **⬇ egg.json**

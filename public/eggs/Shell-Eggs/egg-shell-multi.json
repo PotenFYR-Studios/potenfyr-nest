@@ -1,0 +1,274 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/egg-shell-multi.json"
+    },
+    "exported_at": "2026-09-10T18:00:00+00:00",
+    "name": "Multi Shell",
+    "author": "support@potenfyr.in",
+    "description": "One egg. Every shell. Every direction. SSH (incl. CA certificates + hardened keys-only), Dropbear, Telnet, Mosh, tmux/screen/zellij, SSH tunnels (-L -R -D, X11, rsync, sshfs), 20+ interpreter reverse shells (bash/python/PHP/Perl/Ruby/Lua/Node/PowerShell/Go/Java/Groovy/awk/netcat family), TLS & covert channels (websocket/DNS/ICMP), bind shells, browser web terminals and debug shells. Credentials are mandatory; everything else is optional. Multiple shells can run side-by-side on multiple panel ports.",
+    "features": [
+        "pid_limit"
+    ],
+    "docker_images": {
+        "Universal Multi-Shell (All Types)": "ghcr.io/potenfyr-studios/shell-eggs:latest"
+    },
+    "file_denylist": [],
+    "startup": "if [ -f /entrypoint.sh ]; then exec bash /entrypoint.sh; elif [ -f /usr/local/bin/entrypoint.sh ]; then exec bash /usr/local/bin/entrypoint.sh; elif [ -f ./entrypoint.sh ]; then exec bash ./entrypoint.sh; else echo \"[startup] Fetching remote entrypoint bootstrap...\"; (curl -fsSL --retry 3 https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/entrypoint.sh || wget -qO- https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/entrypoint.sh) | tr -d \"\\r\" | exec bash; fi",
+    "config": {
+        "files": "{}",
+        "startup": "{\"done\":[\"Supervisor online\",\"ready\",\"Listening\"],\"user_interaction\":[\"login:\",\"pick\"],\"strip_ansi\":false}",
+        "stop": "^C",
+        "logs": "{}"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/sh\n# PotenFYR Studios - Multi-Shell Universal Installer\nif [ -d /mnt/server ]; then\n    cd /mnt/server || exit 1\nelif [ -d /home/container ]; then\n    cd /home/container || exit 1\nelse\n    cd \"$(pwd)\" || exit 1\nfi\nSERVER_DIR=\"$(pwd)\"\n\nmkdir -p \"${SERVER_DIR}/logs\" \"${SERVER_DIR}/payloads\" \"${SERVER_DIR}/bin\" \"${SERVER_DIR}/.ssh-pub\"\n\n# A .git directory means SOURCE CHECKOUT - never self-clean there.\nif [ ! -d \"${SERVER_DIR}/.git\" ]; then\nfor _f in \"${SERVER_DIR}/run.sh\" \"${SERVER_DIR}/entrypoint.sh\"; do\n    if [ -f \"${_f}\" ] && grep -q \"PotenFYR Studios\" \"${_f}\" 2>/dev/null; then\n        rm -f \"${_f}\" 2>/dev/null || true\n    fi\ndone\nunset _f\nif [ -d \"${SERVER_DIR}/scripts\" ]; then\n    _managed=1\n    for _sf in \"${SERVER_DIR}/scripts\"/* \"${SERVER_DIR}/scripts\"/.*; do\n        [ -e \"${_sf}\" ] || continue\n        case \"${_sf}\" in\n            */.|*/..) continue ;;\n            *.sh|*.py) grep -q \"PotenFYR Studios\" \"${_sf}\" 2>/dev/null || _managed=0 ;;\n            *) _managed=0 ;;\n        esac\n    done\n    if [ \"${_managed}\" = \"1\" ]; then\n        rm -rf \"${SERVER_DIR}/scripts\" 2>/dev/null || true\n    else\n        echo \"[install] Keeping ./scripts - contains non-runtime (user) files.\"\n    fi\n    unset _managed _sf\nfi\nfi\n\n# Sync runtime files from the egg repo (self-hosted runners copy them in).\nif [ -n \"${GIT_SOURCE_SYNC:-}\" ]; then\n    echo \"[install] GIT_SOURCE_SYNC set - runtime files provided by image/sync.\"\nfi\n\necho \"[install] Multi-Shell egg workspace ready.\"\necho \"[install] Credentials are the only mandatory setting.\"\necho \"[install] SHELL_TYPE=auto shows an interactive picker on first boot.\"",
+            "container": "debian:stable-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Shell Type",
+            "description": "Which shell(s) to run. 'auto' opens an interactive paginated picker in the console on first boot. Otherwise a comma-separated list of ids:\nserver: ssh, ssh-cert, ssh-hardened, dropbear, telnetd, mosh-server\ntunnel: ssh-local, ssh-remote, ssh-dynamic, ssh-x11, rsync-ssh, sshfs\nreverse: bash-tcp, bash-udp, python, python-pty, php, php-pentest, perl, ruby, lua, node, powershell, golang, groovy, java, awk, nc, nc-udp, ncat, socat, cryptcat\nsecure: openssl-rs, socat-tls, ncat-ssl, wssh, dnscat, icmp-shell\nbind: nc-bind, socat-bind, openssl-bind, php-bind, python-bind\nweb: ttyd, gotty, php-webshell, node-webshell\ndebug: ssh-debug, strace-shell, tcpdump-shell, socat-probe\nSee SHELLs.md for the full reference with connection examples.",
+            "env_variable": "SHELL_TYPE",
+            "default_value": "auto",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:256",
+            "field_type": "text"
+        },
+        {
+            "name": "Shell Usernames",
+            "description": "MANDATORY in practice: comma-separated login users created inside the container (e.g. 'alice,bob'). Each gets a private home + bash. Invalid names are skipped with a warning.",
+            "env_variable": "SHELL_USERS",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:1024",
+            "field_type": "text"
+        },
+        {
+            "name": "Shell User Passwords",
+            "description": "Positionally matched to Shell Usernames ('S3cretA,S3cretB'). Empty or 'auto' slots generate cryptographically random secrets (recorded in .env and .sh-users/credentials, mode 600, shown once in console).",
+            "env_variable": "SHELL_PASSWORDS",
+            "default_value": "auto",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:1024",
+            "field_type": "text"
+        },
+        {
+            "name": "Extra Shell Types",
+            "description": "OPTIONAL: additional shell ids to run alongside the primary (same catalog as Shell Type). Example: 'socat,tmux' to also run a socat reverse shell and a tmux session.",
+            "env_variable": "SHELL_EXTRA_TYPES",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:256",
+            "field_type": "text"
+        },
+        {
+            "name": "Extra Ports",
+            "description": "OPTIONAL: comma-separated extra panel ports for additional PORTED shells (the primary shell always binds this server's default port). Positionally matched to Extra Shell Types order. Reverse shells and multiplexers need no port.",
+            "env_variable": "SHELL_EXTRA_PORTS",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:256",
+            "field_type": "text"
+        },
+        {
+            "name": "Reverse Target Host",
+            "description": "OPTIONAL: where reverse shells connect OUT to (your public IP / listener host). Required only when running reverse shells.",
+            "env_variable": "SHELL_REVERSE_HOST",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:253",
+            "field_type": "text"
+        },
+        {
+            "name": "Reverse Target Port",
+            "description": "OPTIONAL: port of your listener (nc -lvnp). Default 4444.",
+            "env_variable": "SHELL_REVERSE_PORT",
+            "default_value": "4444",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|numeric|min:1,max:65535",
+            "field_type": "text"
+        },
+        {
+            "name": "TLS Reverse Shells",
+            "description": "OPTIONAL: 1 = TLS-capable reverse profiles (ncat, socat) wrap the channel with TLS when both sides support it.",
+            "env_variable": "SHELL_REVERSE_TLS",
+            "default_value": "0",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "SSH Public Key",
+            "description": "OPTIONAL: your public key (one line, e.g. ssh-ed25519 AAAA... comment). Installed into authorized_keys; the ONLY way in for the ssh-hardened profile.",
+            "env_variable": "SHELL_SSH_PUBKEY_RAW",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:2048",
+            "field_type": "text"
+        },
+        {
+            "name": "SSH Password Auth",
+            "description": "OPTIONAL: yes/no for the standard ssh + ssh-cert profiles (ssh-hardened is always keys-only).",
+            "env_variable": "SHELL_SSH_PASSWORD_AUTH",
+            "default_value": "yes",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:8",
+            "field_type": "text"
+        },
+        {
+            "name": "MOSH UDP Start Port",
+            "description": "OPTIONAL: first UDP port for Mosh roaming (opens SHELL_MOSH_UDP_COUNT ports downward range). Default 60000.",
+            "env_variable": "SHELL_MOSH_UDP_START",
+            "default_value": "60000",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|numeric|min:1024,max:65000",
+            "field_type": "text"
+        },
+        {
+            "name": "Web Shell User",
+            "description": "OPTIONAL: basic-auth user for ttyd/gotty web terminals (password below). Empty = first generated credential is used.",
+            "env_variable": "SHELL_WEB_USER",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:64",
+            "field_type": "text"
+        },
+        {
+            "name": "Web Shell Password",
+            "description": "OPTIONAL: basic-auth password for ttyd/gotty.",
+            "env_variable": "SHELL_WEB_PASS",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:128",
+            "field_type": "text"
+        },
+        {
+            "name": "Web Shell Token",
+            "description": "OPTIONAL: bearer token for php/node web shells (auto-generated when empty, shown once in console).",
+            "env_variable": "SHELL_WEB_TOKEN",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:128",
+            "field_type": "text"
+        },
+        {
+            "name": "MOTD Banner",
+            "description": "OPTIONAL: message shown on every shell login.",
+            "env_variable": "SHELL_MOTD",
+            "default_value": "Welcome to the Multi-Shell Universal Egg (PotenFYR Studios).",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:256",
+            "field_type": "text"
+        },
+        {
+            "name": "Multiplexer Session Name",
+            "description": "OPTIONAL: tmux/screen session name. Default 'shell-eggs'.",
+            "env_variable": "SHELL_MUX_SESSION",
+            "default_value": "shell-eggs",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:32",
+            "field_type": "text"
+        },
+        {
+            "name": "Default Login Multiplexer",
+            "description": "OPTIONAL: tmux|screen - drop SSH/Telnet logins straight into the persistent session.",
+            "env_variable": "DEFAULT_SHELL_MUX",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:16",
+            "field_type": "text"
+        },
+        {
+            "name": "Show Credentials in Console",
+            "description": "OPTIONAL: 1 = print generated credentials on the boot console (they are always written to .env and .sh-users/credentials, mode 600).",
+            "env_variable": "SHELL_SHOW_CREDENTIALS",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "Auto Generate Credentials",
+            "description": "1 = generate crypto-random secrets for empty/'auto' password slots and persist them. Credentials are the one mandatory input of this egg - everything else is optional.",
+            "env_variable": "AUTO_GENERATE_CREDENTIALS",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "Panel Stop Watcher",
+            "description": "Watch console stdin for stop commands ('stop', '^C', 'exit', ...) delivered as text by TTY daemons. auto = on for all consoles; 0 = disable; 1 = force on.",
+            "env_variable": "PANEL_STOP_WATCHER",
+            "default_value": "auto",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:16",
+            "field_type": "text"
+        },
+        {
+            "name": "Console Theme",
+            "description": "Console output style. 'sh' = agent theme (</> shell-eggs prefixes); 'classic' = [PotenFYR] bracket style.",
+            "env_variable": "CLI_THEME",
+            "default_value": "sh",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:16",
+            "field_type": "text"
+        },
+        {
+            "name": "Banner Gradient",
+            "description": "Boot banner gradient: auto (random per boot), aurora, candy, citrus, forest, sunset, ocean, or none.",
+            "env_variable": "CLI_BANNER_GRADIENT",
+            "default_value": "auto",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:16",
+            "field_type": "text"
+        },
+        {
+            "name": "Egg Update URL",
+            "description": "Check on startup and self-update the launcher when the upstream egg changed (raw GitHub egg JSON or entrypoint URL).",
+            "env_variable": "EGG_UPDATE_URL",
+            "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/egg-shell-multi.json",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:512",
+            "field_type": "text"
+        },
+        {
+            "name": "Auto Update Egg",
+            "description": "1 = check EGG_UPDATE_URL on startup and self-update. 0 = disable the check entirely.",
+            "env_variable": "AUTO_UPDATE_EGG",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        }
+    ]
+}

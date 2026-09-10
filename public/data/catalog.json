@@ -1,11 +1,11 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-09T23:20:48Z",
+  "generated_at": "2026-09-10T17:35:15Z",
   "counts": {
-    "collections": 3,
-    "eggs": 3,
-    "variables": 103,
-    "images": 3
+    "collections": 4,
+    "eggs": 4,
+    "variables": 127,
+    "images": 4
   },
   "collections": [
     {
@@ -681,6 +681,163 @@
             "pid_limit"
           ],
           "startup": "bash /usr/local/bin/run.sh"
+        }
+      ]
+    },
+    {
+      "default_branch": "main",
+      "description": "",
+      "forks": 0,
+      "homepage": "",
+      "language": "Shell",
+      "license": "Apache-2.0",
+      "open_issues": 0,
+      "pushed_at": "2026-09-10T17:35:15Z",
+      "repo": "Shell-Eggs",
+      "stars": 0,
+      "topics": [],
+      "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
+      "upstream_sha": "21bb6cbfacdc136f2480852306fb97ce4aae8718",
+      "eggs": [
+        {
+          "path": "egg-shell-multi.json",
+          "local": "public/eggs/Shell-Eggs/egg-shell-multi.json",
+          "name": "Multi Shell",
+          "description": "One egg. Every shell. Every direction. SSH (incl. CA certificates + hardened keys-only), Dropbear, Telnet, Mosh, tmux/screen/zellij, SSH tunnels (-L -R -D, X11, rsync, sshfs), 20+ interpreter reverse shells (bash/pyth...",
+          "author": "support@potenfyr.in",
+          "exported_at": "2026-09-10T18:00:00+00:00",
+          "images": [
+            {
+              "name": "Universal Multi-Shell (All Types)",
+              "uri": "ghcr.io/potenfyr-studios/shell-eggs:latest"
+            }
+          ],
+          "variables": [
+            {
+              "name": "Shell Type",
+              "env_variable": "SHELL_TYPE",
+              "default_value": "auto"
+            },
+            {
+              "name": "Shell Usernames",
+              "env_variable": "SHELL_USERS",
+              "default_value": ""
+            },
+            {
+              "name": "Shell User Passwords",
+              "env_variable": "SHELL_PASSWORDS",
+              "default_value": "auto"
+            },
+            {
+              "name": "Extra Shell Types",
+              "env_variable": "SHELL_EXTRA_TYPES",
+              "default_value": ""
+            },
+            {
+              "name": "Extra Ports",
+              "env_variable": "SHELL_EXTRA_PORTS",
+              "default_value": ""
+            },
+            {
+              "name": "Reverse Target Host",
+              "env_variable": "SHELL_REVERSE_HOST",
+              "default_value": ""
+            },
+            {
+              "name": "Reverse Target Port",
+              "env_variable": "SHELL_REVERSE_PORT",
+              "default_value": "4444"
+            },
+            {
+              "name": "TLS Reverse Shells",
+              "env_variable": "SHELL_REVERSE_TLS",
+              "default_value": "0"
+            },
+            {
+              "name": "SSH Public Key",
+              "env_variable": "SHELL_SSH_PUBKEY_RAW",
+              "default_value": ""
+            },
+            {
+              "name": "SSH Password Auth",
+              "env_variable": "SHELL_SSH_PASSWORD_AUTH",
+              "default_value": "yes"
+            },
+            {
+              "name": "MOSH UDP Start Port",
+              "env_variable": "SHELL_MOSH_UDP_START",
+              "default_value": "60000"
+            },
+            {
+              "name": "Web Shell User",
+              "env_variable": "SHELL_WEB_USER",
+              "default_value": ""
+            },
+            {
+              "name": "Web Shell Password",
+              "env_variable": "SHELL_WEB_PASS",
+              "default_value": ""
+            },
+            {
+              "name": "Web Shell Token",
+              "env_variable": "SHELL_WEB_TOKEN",
+              "default_value": ""
+            },
+            {
+              "name": "MOTD Banner",
+              "env_variable": "SHELL_MOTD",
+              "default_value": "Welcome to the Multi-Shell Universal Egg (PotenFYR Studios)."
+            },
+            {
+              "name": "Multiplexer Session Name",
+              "env_variable": "SHELL_MUX_SESSION",
+              "default_value": "shell-eggs"
+            },
+            {
+              "name": "Default Login Multiplexer",
+              "env_variable": "DEFAULT_SHELL_MUX",
+              "default_value": ""
+            },
+            {
+              "name": "Show Credentials in Console",
+              "env_variable": "SHELL_SHOW_CREDENTIALS",
+              "default_value": "1"
+            },
+            {
+              "name": "Auto Generate Credentials",
+              "env_variable": "AUTO_GENERATE_CREDENTIALS",
+              "default_value": "1"
+            },
+            {
+              "name": "Panel Stop Watcher",
+              "env_variable": "PANEL_STOP_WATCHER",
+              "default_value": "auto"
+            },
+            {
+              "name": "Console Theme",
+              "env_variable": "CLI_THEME",
+              "default_value": "sh"
+            },
+            {
+              "name": "Banner Gradient",
+              "env_variable": "CLI_BANNER_GRADIENT",
+              "default_value": "auto"
+            },
+            {
+              "name": "Egg Update URL",
+              "env_variable": "EGG_UPDATE_URL",
+              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/egg-shell-multi.json"
+            },
+            {
+              "name": "Auto Update Egg",
+              "env_variable": "AUTO_UPDATE_EGG",
+              "default_value": "1"
+            }
+          ],
+          "features": [
+            "pid_limit"
+          ],
+          "startup": "if [ -f /entrypoint.sh ]; then exec bash /entrypoint.sh; elif [ -f /usr/local/bin/entrypoint.sh ]; then exec bash /usr/local/bin/entrypoint.sh; elif [ -f ./e..."
         }
       ]
     }
