@@ -42,7 +42,20 @@
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥚</text></svg>" />
     <link rel="sitemap" type="application/xml" href="sitemap.xml" />
-  </head>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type": "Organization", "name": "PotenFYR Studios", "alternateName": "PotenFYR", "url": "https://potenfyr.in/", "sameAs": ["https://github.com/PotenFYR-Studios"]},
+    {"@type": "WebSite", "name": "PotenFYR Nest", "url": "https://potenfyr-studios.github.io/potenfyr-nest/", "publisher": {"@type": "Organization", "name": "PotenFYR Studios"}},
+    {"@type": "FAQPage", "mainEntity": [
+      {"@type": "Question", "name": "What is a multi egg for Pterodactyl?", "acceptedAnswer": {"@type": "Answer", "text": "A multi egg is a single Pterodactyl, Pelican or Feather panel egg that ships many engines or runtimes in one Docker image and installs what you choose on demand. PotenFYR Nest publishes multi-database (50+ engines), multi-language (50+ languages) and multi-Minecraft eggs."}},
+      {"@type": "Question", "name": "Which panels do PotenFYR eggs support?", "acceptedAnswer": {"@type": "Answer", "text": "Pterodactyl, Pelican, Feather Panel, Wisp, PufferPanel and Jexac."}}
+    ]}
+  ]
+}
+</script>
+</head>
   <body>
     <div id="root"></div>
     <noscript>

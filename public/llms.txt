@@ -33,8 +33,9 @@ plain Docker, Kubernetes, Fly.io, Railway and Render.
 
 ## Licensing
 
-Egg definitions keep their upstream licenses (MIT for the PotenFYR egg
-collections). Site code follows the repository license (Apache-2.0).
+The repository is licensed under Apache-2.0 with the Commons Clause (free to
+fork, modify and use, and to build around; not to sell as a product). Egg
+definitions keep their upstream licenses where applicable.
 
 ## Citation
 
