@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { clsx } from "clsx";
+import { ChevronDown } from "lucide-react";
 
 /** Magic UI · Number Ticker: counts up to `value` (rAF, no deps quirks). */
 export function NumberTicker({
@@ -89,10 +90,14 @@ export function BorderBeam({
   size = 120,
   duration = 7,
   className,
+  colorFrom = "#8b5cf6",
+  colorTo = "#ec4899",
 }: {
   size?: number;
   duration?: number;
   className?: string;
+  colorFrom?: string;
+  colorTo?: string;
 }) {
   return (
     <div
@@ -105,9 +110,10 @@ export function BorderBeam({
       }}
     >
       <motion.div
-        className="absolute aspect-square bg-gradient-to-l from-transparent via-[#ec4899] to-transparent rounded-full"
+        className="absolute aspect-square rounded-full"
         style={{
           width: size,
+          background: `linear-gradient(to left, transparent, ${colorFrom}, ${colorTo}, transparent)`,
           offsetPath: `rect(0 auto auto 0 round ${size / 2}px)`,
         }}
         animate={{ offsetDistance: ["0%", "100%"] }}
@@ -143,7 +149,7 @@ export function ShineBorder({
 export function MagicCard({
   children,
   className,
-  gradientColor = "rgba(139,92,246,0.10)",
+  gradientColor = "rgba(139,92,246,0.12)",
 }: {
   children: React.ReactNode;
   className?: string;
@@ -162,12 +168,12 @@ export function MagicCard({
       }}
       onMouseEnter={() => setInside(true)}
       onMouseLeave={() => setInside(false)}
-      className={clsx("group/card relative overflow-hidden rounded-2xl border border-line bg-panel", className)}
+      className={clsx("group/card relative overflow-hidden rounded-2xl border border-line bg-panel transition-all duration-300", className)}
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(320px circle at ${pos.x}px ${pos.y}px, ${gradientColor}, transparent 70%)`,
+          background: `radial-gradient(340px circle at ${pos.x}px ${pos.y}px, ${gradientColor}, transparent 70%)`,
           opacity: inside ? 1 : 0,
         }}
       />
@@ -181,8 +187,8 @@ export function DotPattern({ className }: { className?: string }) {
   return (
     <svg aria-hidden className={clsx("pointer-events-none absolute inset-0 h-full w-full", className)}>
       <defs>
-        <pattern id="nest-dots" width="26" height="26" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1" fill="rgba(139,92,246,0.22)" />
+        <pattern id="nest-dots" width="28" height="28" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.2" fill="rgba(139,92,246,0.18)" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#nest-dots)" />
@@ -191,19 +197,19 @@ export function DotPattern({ className }: { className?: string }) {
 }
 
 /** Magic UI · Meteors: streaking comets in the hero. */
-export function Meteors({ number = 12 }: { number?: number }) {
+export function Meteors({ number = 14 }: { number?: number }) {
   const meteors = Array.from({ length: number }, (_, i) => ({
     id: i,
     left: (i * 137) % 100,
-    delay: ((i * 2.7) % 9).toFixed(1),
-    dur: (5 + ((i * 1.3) % 5)).toFixed(1),
+    delay: ((i * 2.3) % 8).toFixed(1),
+    dur: (4.5 + ((i * 1.1) % 4)).toFixed(1),
   }));
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {meteors.map((m) => (
         <span
           key={m.id}
-          className="absolute h-0.5 w-0.5 rotate-[215deg] rounded-full bg-brand-pink shadow-[0_0_0_1px_rgba(236,72,153,0.12)] before:content-[''] before:absolute before:top-1/2 before:h-px before:w-16 before:-translate-y-1/2 before:bg-gradient-to-r before:from-[#ec4899] before:to-transparent"
+          className="absolute h-0.5 w-0.5 rotate-[215deg] rounded-full bg-brand-pink shadow-[0_0_0_1px_rgba(236,72,153,0.12)] before:content-[''] before:absolute before:top-1/2 before:h-px before:w-20 before:-translate-y-1/2 before:bg-gradient-to-r before:from-[#ec4899] before:to-transparent"
           style={{
             left: `${m.left}%`,
             top: "-8%",
@@ -212,6 +218,71 @@ export function Meteors({ number = 12 }: { number?: number }) {
         />
       ))}
       <style>{`@keyframes meteor { 0% { transform: rotate(215deg) translateX(0); opacity: 1; } 70% { opacity: 1; } 100% { transform: rotate(215deg) translateX(-620px); opacity: 0; } }`}</style>
+    </div>
+  );
+}
+
+/** Ambient Glow Orb for rich atmosphere */
+export function GlowOrb({
+  className,
+  color = "rgba(139, 92, 246, 0.22)",
+  size = 400,
+}: {
+  className?: string;
+  color?: string;
+  size?: number;
+}) {
+  return (
+    <div
+      aria-hidden
+      className={clsx("pointer-events-none absolute rounded-full blur-[100px] will-change-transform", className)}
+      style={{
+        width: size,
+        height: size,
+        background: color,
+      }}
+    />
+  );
+}
+
+/** Interactive FAQ Accordion Item */
+export function AccordionItem({
+  title,
+  children,
+  isOpen,
+  onToggle,
+}: {
+  title: string;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-line bg-panel transition-colors hover:border-white/20">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-4 p-5 text-left transition-colors"
+      >
+        <span className="font-semibold text-white text-[15.5px]">{title}</span>
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="shrink-0 text-[#9aa0b4]"
+        >
+          <ChevronDown className="h-5 w-5" />
+        </motion.span>
+      </button>
+      <motion.div
+        initial={false}
+        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.25, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
+        <div className="px-5 pb-5 pt-0 text-sm leading-relaxed text-[#9aa0b4] border-t border-white/[0.06]">
+          <div className="pt-3">{children}</div>
+        </div>
+      </motion.div>
     </div>
   );
 }

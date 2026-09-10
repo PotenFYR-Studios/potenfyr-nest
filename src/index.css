@@ -1,19 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0d0f16;
-  --color-bg2: #131624;
-  --color-panel: #161927;
+  --color-bg: #0b0d14;
+  --color-bg2: #101320;
+  --color-panel: #151828;
+  --color-panel-elevated: #1a1e32;
   --color-line: rgba(139, 92, 246, 0.16);
+  --color-line-light: rgba(255, 255, 255, 0.08);
   --color-brand-violet: #8b5cf6;
   --color-brand-pink: #ec4899;
   --color-brand-orange: #f97316;
+  --color-brand-cyan: #06b6d4;
+  --color-brand-emerald: #10b981;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Fira Code", ui-monospace, monospace;
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
@@ -21,24 +26,117 @@ body {
   color: #e8eaf2;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 ::selection {
   background: rgba(236, 72, 153, 0.35);
+  color: #ffffff;
 }
 
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0d14;
+}
+::-webkit-scrollbar-thumb {
+  background: #232840;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4267;
+}
+
+/* Gradients */
 .grad-text {
-  background: linear-gradient(90deg, #8b5cf6, #ec4899, #f97316);
+  background: linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #f97316 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grad-text-db {
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grad-text-mc {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #a3e635 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grad-text-prog {
+  background: linear-gradient(135deg, #f472b6 0%, #fb923c 50%, #facc15 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .grad-bg {
-  background: linear-gradient(90deg, #8b5cf6, #ec4899, #f97316);
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f97316 100%);
 }
 
-/* reduced motion: pause every decorative animation */
+.grad-bg-db {
+  background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
+}
+
+.grad-bg-mc {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+}
+
+.grad-bg-prog {
+  background: linear-gradient(135deg, #db2777 0%, #ea580c 100%);
+}
+
+/* Glassmorphism */
+.glass-panel {
+  background: rgba(21, 24, 40, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(26, 30, 50, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(139, 92, 246, 0.14);
+}
+
+.glass-card:hover {
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+/* Ambient glow accents */
+.glow-db {
+  box-shadow: 0 0 40px -10px rgba(56, 189, 248, 0.25);
+}
+
+.glow-mc {
+  box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.25);
+}
+
+.glow-prog {
+  box-shadow: 0 0 40px -10px rgba(236, 72, 153, 0.25);
+}
+
+/* Animated subtle mesh grid */
+.grid-mesh {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

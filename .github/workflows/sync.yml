@@ -50,7 +50,7 @@ jobs:
   deploy:
     name: Build with Bun and deploy to GitHub Pages
     needs: sync
-    if: needs.sync.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+    if: needs.sync.outputs.changed == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
