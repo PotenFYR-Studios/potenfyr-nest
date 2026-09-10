@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MagicCard, BorderBeam } from "./magicui";
+import { MagicCard } from "./magicui";
 import type { Collection, Egg, LiveRepo } from "../lib/types";
 import { pushedFor, starsFor } from "../lib/data";
 import { Download, Sliders, Copy, Check, HardDrive, Cpu, Terminal, Sparkles } from "lucide-react";
@@ -50,9 +50,7 @@ export function EggCard({ egg, collection, live, onInspect, mode = "grid" }: Egg
         icon: "🗄️",
         tag: "Universal Database",
         accent: "from-sky-500 to-indigo-500",
-        beamColorFrom: "#0ea5e9",
-        beamColorTo: "#6366f1",
-        cardGlow: "rgba(14, 165, 233, 0.12)",
+        cardGlow: "rgba(14, 165, 233, 0.05)",
         highlightBadge: "border-sky-500/30 bg-sky-500/10 text-sky-300",
         featureTag: "55+ Database Engines",
       }
@@ -61,9 +59,7 @@ export function EggCard({ egg, collection, live, onInspect, mode = "grid" }: Egg
         icon: "⚔️",
         tag: "Universal Minecraft",
         accent: "from-emerald-500 to-lime-500",
-        beamColorFrom: "#10b981",
-        beamColorTo: "#84cc16",
-        cardGlow: "rgba(16, 185, 129, 0.12)",
+        cardGlow: "rgba(16, 185, 129, 0.05)",
         highlightBadge: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
         featureTag: "18+ Server Engines",
       }
@@ -71,9 +67,7 @@ export function EggCard({ egg, collection, live, onInspect, mode = "grid" }: Egg
         icon: "⚡",
         tag: "Universal Runtime",
         accent: "from-pink-500 to-amber-500",
-        beamColorFrom: "#ec4899",
-        beamColorTo: "#f59e0b",
-        cardGlow: "rgba(236, 72, 153, 0.12)",
+        cardGlow: "rgba(236, 72, 153, 0.05)",
         highlightBadge: "border-pink-500/30 bg-pink-500/10 text-pink-300",
         featureTag: "50+ Runtimes & Dev Watch",
       };
@@ -91,8 +85,6 @@ export function EggCard({ egg, collection, live, onInspect, mode = "grid" }: Egg
     return (
       <MagicCard className="w-full" gradientColor={theme.cardGlow}>
         <div className="relative flex flex-col lg:flex-row gap-6 p-6 lg:p-8">
-          <BorderBeam size={160} duration={8} colorFrom={theme.beamColorFrom} colorTo={theme.beamColorTo} />
-
           {/* Left Column: Icon & Core Details */}
           <div className="flex-1 flex flex-col justify-between">
             <div>
@@ -224,8 +216,6 @@ export function EggCard({ egg, collection, live, onInspect, mode = "grid" }: Egg
   return (
     <MagicCard className="h-full flex flex-col" gradientColor={theme.cardGlow}>
       <div className="relative flex flex-1 flex-col justify-between p-6">
-        <BorderBeam size={110} duration={8} colorFrom={theme.beamColorFrom} colorTo={theme.beamColorTo} />
-
         {/* 1. Header: Icon, Tags, Stars */}
         <div>
           <div className="flex items-center justify-between gap-2 mb-3.5">

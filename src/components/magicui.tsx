@@ -59,7 +59,7 @@ export function Marquee({
   return (
     <div
       className={clsx(
-        "group flex w-full overflow-hidden [--duration:36s] [--gap:3rem]",
+        "group flex w-full overflow-hidden [--duration:35s] [--gap:3rem] [gap:var(--gap)]",
         className,
       )}
     >
@@ -68,9 +68,8 @@ export function Marquee({
           key={i}
           aria-hidden={i === 1}
           style={{
-            animation: `marquee var(--duration) linear infinite`,
+            animation: `nestMarqueeScroll var(--duration) linear infinite`,
             animationDirection: reverse ? "reverse" : "normal",
-            animationDelay: i === 1 ? "calc(var(--duration) / -2)" : "0s",
           }}
           className={clsx(
             "flex shrink-0 items-center justify-around [gap:var(--gap)] min-w-full",
@@ -80,7 +79,16 @@ export function Marquee({
           {children}
         </div>
       ))}
-      <style>{`@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(-100% - var(--gap))); } }`}</style>
+      <style>{`
+        @keyframes nestMarqueeScroll {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(calc(-100% - var(--gap)));
+          }
+        }
+      `}</style>
     </div>
   );
 }
