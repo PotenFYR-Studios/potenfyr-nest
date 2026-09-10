@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PotenFYR Nest · Every Multi Egg. One Nest.</title>
+
+    <!-- Primary SEO -->
+    <meta name="description" content="The official catalog of PotenFYR Studios multi eggs: one egg for every database (MariaDB, PostgreSQL, MongoDB, Redis + 50 more), 50+ programming languages and every Minecraft server type. Production-ready for Pterodactyl, Pelican and Feather Panel. Auto-synced every 30 minutes." />
+    <meta name="keywords" content="pterodactyl egg, pelican egg, feather panel egg, multi egg, minecraft egg, database egg, programming languages egg, pterodactyl panel, pelican panel, game server hosting, docker egg, potenfyr" />
+    <meta name="author" content="PotenFYR Studios" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="theme-color" content="#0d0f16" />
+    <link rel="canonical" href="https://potenfyr-studios.github.io/potenfyr-nest/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PotenFYR Nest" />
+    <meta property="og:title" content="PotenFYR Nest · Every Multi Egg. One Nest." />
+    <meta property="og:description" content="One egg for every database, 50+ languages and every Minecraft server type. Production-ready eggs for Pterodactyl, Pelican and Feather Panel, auto-synced every 30 minutes." />
+    <meta property="og:image" content="og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="PotenFYR Nest: every multi egg, one nest. Databases, 50+ languages, Minecraft." />
+    <meta property="og:url" content="https://potenfyr-studios.github.io/potenfyr-nest/" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PotenFYR Nest · Every Multi Egg. One Nest." />
+    <meta name="twitter:description" content="One egg for every database, 50+ languages and every Minecraft server type. Production-ready eggs for Pterodactyl, Pelican and Feather Panel." />
+    <meta name="twitter:image" content="og.png" />
+
+    <!-- Performance: preload the fonts the page renders with -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" href="data/catalog.json" as="fetch" crossorigin />
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥚</text></svg>" />
+    <link rel="sitemap" type="application/xml" href="sitemap.xml" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="max-width: 42rem; margin: 4rem auto; padding: 0 1.5rem; color: #e8eaf2; font-family: system-ui, sans-serif">
+        <h1>PotenFYR Nest</h1>
+        <p>
+          The official catalog of PotenFYR Studios multi eggs for Pterodactyl, Pelican and Feather Panel: one egg for
+          every database, 50+ programming languages and every Minecraft server type. JavaScript is disabled, so the
+          interactive catalog cannot render. Browse the raw catalog instead:
+          <a href="data/catalog.json" style="color: #8b5cf6">data/catalog.json</a>.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

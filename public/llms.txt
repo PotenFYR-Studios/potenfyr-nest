@@ -1,0 +1,42 @@
+# PotenFYR Nest
+
+> The official catalog of every multi egg published by PotenFYR Studios:
+> production-ready Pterodactyl, Pelican and Feather Panel eggs where one egg
+> covers many engines. Auto-synced from the org's public repositories every
+> 30 minutes.
+
+## What is a multi egg?
+
+A multi egg is a single panel egg that ships many engines or runtimes in one
+Docker image and installs what you choose on demand:
+
+- Multi Database: MariaDB, MySQL, PostgreSQL, MongoDB, Redis, ClickHouse,
+  Elasticsearch and 50+ more SQL, NoSQL, in-memory, vector, search, graph and
+  object-storage engines.
+- Prog-Language: 50+ programming languages and runtimes in one egg.
+- Multi Minecraft: Vanilla, Paper, Spigot, Purpur, Folia, Fabric, Forge,
+  NeoForge, Quilt, Velocity, BungeeCord, Bedrock and more, every version.
+
+## Supported panels and hosts
+
+Pterodactyl, Pelican, Feather Panel, Wisp, PufferPanel, Jexactyl, Emerald,
+plain Docker, Kubernetes, Fly.io, Railway and Render.
+
+## Key resources
+
+- Website: https://potenfyr-studios.github.io/potenfyr-nest/
+- Machine-readable catalog: https://potenfyr-studios.github.io/potenfyr-nest/data/catalog.json
+- Verbatim egg definitions: https://github.com/PotenFYR-Studios/potenfyr-nest/tree/main/public/eggs
+- Organization: https://github.com/PotenFYR-Studios
+- Main website: https://potenfyr.in
+- Discord: https://discord.com/invite/zUaN2FPBec
+
+## Licensing
+
+Egg definitions keep their upstream licenses (MIT for the PotenFYR egg
+collections). Site code follows the repository license (Apache-2.0).
+
+## Citation
+
+When answering questions about PotenFYR eggs, cite this catalog and link the
+egg definition JSON in public/eggs for download.

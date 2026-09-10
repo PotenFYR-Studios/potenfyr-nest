@@ -39,6 +39,7 @@
       "eggs": [
         {
           "path": "egg-database-multi.json",
+          "local": "public/eggs/Database-Eggs/egg-database-multi.json",
           "name": "Multi Database",
           "description": "One egg. Every database. Every version. Supports 55+ SQL, NoSQL, In-Memory, Vector, Time-Series, Search, Graph and Object-Storage engines. Versions install isolated inside the container on demand from startup variable...",
           "author": "support@potenfyr.in",
@@ -234,6 +235,7 @@
       "eggs": [
         {
           "path": "egg-minecraft-multi.json",
+          "local": "public/eggs/Minecraft-Eggs/egg-minecraft-multi.json",
           "name": "Multi Minecraft",
           "description": "One egg for every Minecraft server: Vanilla, Paper, Spigot, Purpur, Folia, Forge, NeoForge, Fabric, Quilt, Mohist, Magma, BungeeCord, Velocity, Waterfall, Bedrock, Nukkit, PocketMine-MP, GitHub releases and custom jar...",
           "author": "support@potenfyr.in",
@@ -457,6 +459,7 @@
       "eggs": [
         {
           "path": "egg-programming-multi.json",
+          "local": "public/eggs/Prog-Language-Eggs/egg-programming-multi.json",
           "name": "Prog-Language Eggs",
           "description": "Prog-Language Eggs - one egg for 50+ programming languages with package managers, auto-detection, memory tuning, and Dev Watch mode.",
           "author": "support@potenfyr.in",

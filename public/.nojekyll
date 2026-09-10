@@ -1,0 +1,1 @@
+# disable Jekyll processing on GitHub Pages (Vite assets must ship as-is)

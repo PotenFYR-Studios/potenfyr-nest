@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+.bun/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Generated (regenerate with: bash scripts/sync-eggs.sh)
+# generated/ and public/data + public/eggs ARE committed on purpose:
+# they power the Pages build and the README, sync keeps them fresh.
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Agent scratch notes
+.note-agent-context.md
