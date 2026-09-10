@@ -12,6 +12,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: sync-eggs
@@ -19,9 +21,11 @@ concurrency:
 
 jobs:
   sync:
-    name: Mirror org *-Eggs repos
+    name: Harvest egg catalog from org *-Eggs repos
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      catalog_changed: ${{ steps.catalog.outputs.changed }}
 
     steps:
       - name: Checkout
@@ -29,7 +33,43 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Sync egg mirrors
+      - name: Sync egg catalog
+        id: catalog
         env:
           GH_TOKEN: ${{ github.token }}
-        run: bash scripts/sync-eggs.sh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash scripts/sync-eggs.sh
+          if git rev-parse HEAD@{1} >/dev/null 2>&1 && ! git diff --quiet HEAD@{1} HEAD -- docs/data/catalog.json 2>/dev/null; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    name: Deploy site to GitHub Pages
+    needs: sync
+    if: needs.sync.outputs.catalog_changed == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

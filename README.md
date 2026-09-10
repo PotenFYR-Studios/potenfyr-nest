@@ -1,22 +1,76 @@
-# potenfyr-nest
+<!-- markdownlint-disable -->
+<div align="center">
 
-Central mirror of every egg collection published by
-[PotenFYR-Studios](https://github.com/PotenFYR-Studios), kept in sync
-automatically from the org.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:8b5cf6,50:ec4899,100:f97316&height=220&section=header&text=PotenFYR%20Nest&fontSize=52&fontColor=ffffff&fontAlignY=34&desc=Every%20Egg%20%C2%B7%20One%20Nest%20%C2%B7%20Auto-Synced&descSize=20&descAlignY=55&animation=twinkling" width="100%" alt="PotenFYR Nest banner"/>
 
-Nothing in the collection directories is written by hand. Each top-level
-directory is an exact mirror of an upstream repo (minus `.git`), refreshed
-by `.github/workflows/sync.yml`.
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1200&color=8B5CF6&center=true&vCenter=true&width=800&lines=One+nest+for+every+egg+%F0%9F%A5%9A;Catalog+rebuilt+from+the+org+every+30+minutes;Databases+%C2%B7+Languages+%C2%B7+Minecraft+%E2%80%94+every+panel;Egg+repos+stay+the+single+source+of+truth.)](https://github.com/PotenFYR-Studios)
 
-## Collections
+[![Sync](https://img.shields.io/github/actions/workflow/status/PotenFYR-Studios/potenfyr-nest/sync.yml?style=for-the-badge&logo=githubactions&label=Auto-Sync&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/potenfyr-nest/actions/workflows/sync.yml)
+[![Website](https://img.shields.io/badge/Website-potenfyr.in-8b5cf6?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=1c1e26)](https://potenfyr.in)
+[![Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=1c1e26)](https://discord.com/invite/zUaN2FPBec)
+[![Modrinth](https://img.shields.io/badge/Modrinth-potenfyr-1bd96a?style=for-the-badge&logo=modrinth&logoColor=white&labelColor=1c1e26)](https://modrinth.com/organization/potenfyr)
+[![License](https://img.shields.io/github/license/PotenFYR-Studios/potenfyr-nest?style=for-the-badge&labelColor=1c1e26&color=f97316)](LICENSE)
+
+</div>
+
+# 🥚 potenfyr-nest
+
+The egg catalog and website hub of
+[PotenFYR-Studios](https://github.com/PotenFYR-Studios). The `*-Eggs` repos
+stay the single source of truth — this repo holds **no mirrors**, only the
+auto-generated catalog that powers the README below and the
+[GitHub Pages site](https://potenfyr-studios.github.io/potenfyr-nest/).
+
+> 💡 Everything here is **live & auto-synced**: the sync workflow rediscovers
+> every `*-Eggs` repo in the org every 30 minutes, rebuilds
+> `docs/data/catalog.json` and refreshes the README blocks. Stars, push times
+> and descriptions are additionally fetched live from the GitHub API by the
+> website on every page load. New egg repos appear automatically — no edit
+> to this repository is required.
+
+<!-- NEST:START:stats -->
+> 🥚 **3** collections · **3** eggs · **103** variables — generated `2026-09-09T23:20:48Z`, refreshed by every sync run.
+<!-- NEST:END:stats -->
+
+---
+
+## 📦 Collections
 
 Auto-discovered from the org (any repo whose name ends in `-Eggs`):
 
-- [Database-Eggs](https://github.com/PotenFYR-Studios/Database-Eggs)
-- [Prog-Language-Eggs](https://github.com/PotenFYR-Studios/Prog-Language-Eggs)
-- [Minecraft-Eggs](https://github.com/PotenFYR-Studios/Minecraft-Eggs)
+<!-- NEST:START:catalog -->
+| 🗂️ Collection | Eggs | About | Stars | Last push |
+|:---|:---:|:---|:---:|:---:|
+| [Database-Eggs](https://github.com/PotenFYR-Studios/Database-Eggs) | 1 | One egg. Every database. Every version. Every panel. Production-ready multi-database eggs for Pterodactyl, Pelican, Feather, Wisp, and Docker. | [![Stars](https://img.shields.io/github/stars/PotenFYR-Studios/Database-Eggs?style=flat-square&logo=github&labelColor=1c1e26&color=eac54f)](https://github.com/PotenFYR-Studios/Database-Eggs/stargazers) | [![Last push](https://img.shields.io/github/last-commit/PotenFYR-Studios/Database-Eggs?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/Database-Eggs/commits) |
+| [Minecraft-Eggs](https://github.com/PotenFYR-Studios/Minecraft-Eggs) | 1 | Universal Minecraft egg for Pterodactyl, Pelican, and Feather Panel. Supports Vanilla, Paper, Purpur, Fabric, Forge, NeoForge, Velocity, Bedrock, and all 18+ server types. | [![Stars](https://img.shields.io/github/stars/PotenFYR-Studios/Minecraft-Eggs?style=flat-square&logo=github&labelColor=1c1e26&color=eac54f)](https://github.com/PotenFYR-Studios/Minecraft-Eggs/stargazers) | [![Last push](https://img.shields.io/github/last-commit/PotenFYR-Studios/Minecraft-Eggs?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/Minecraft-Eggs/commits) |
+| [Prog-Language-Eggs](https://github.com/PotenFYR-Studios/Prog-Language-Eggs) | 1 | One egg. One image. Every language. A production-grade hosting platform that installs, updates, compiles and runs 50+ programming languages inside your container - across Pterodactyl, Pelican, Feather Panel, PufferPanel, Jexactyl, Wisp, Emerald, Kubernetes, Fly.io, Railway, Render | [![Stars](https://img.shields.io/github/stars/PotenFYR-Studios/Prog-Language-Eggs?style=flat-square&logo=github&labelColor=1c1e26&color=eac54f)](https://github.com/PotenFYR-Studios/Prog-Language-Eggs/stargazers) | [![Last push](https://img.shields.io/github/last-commit/PotenFYR-Studios/Prog-Language-Eggs?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/Prog-Language-Eggs/commits) |
+<!-- NEST:END:catalog -->
 
-## Adding a new collection
+### 🖼️ Featured Cards
+
+Auto-generated by the org's profile workflow — refreshed hourly.
+
+| | |
+|:---:|:---:|
+| <a href="https://github.com/PotenFYR-Studios/Database-Eggs"><img src="https://raw.githubusercontent.com/PotenFYR-Studios/.github/main/profile/cards/Database-Eggs.svg" alt="Database-Eggs" width="400"/></a> | <a href="https://github.com/PotenFYR-Studios/Prog-Language-Eggs"><img src="https://raw.githubusercontent.com/PotenFYR-Studios/.github/main/profile/cards/Prog-Language-Eggs.svg" alt="Prog-Language-Eggs" width="400"/></a> |
+| <a href="https://github.com/PotenFYR-Studios/Minecraft-Eggs"><img src="https://raw.githubusercontent.com/PotenFYR-Studios/.github/main/profile/cards/Minecraft-Eggs.svg" alt="Minecraft-Eggs" width="400"/></a> | |
+
+---
+
+## 🌐 Website
+
+`docs/` is a dependency-free static site (HTML + CSS + vanilla JS) deployed
+to GitHub Pages by the sync workflow:
+
+- renders `docs/data/catalog.json` (rebuilt every 30 minutes)
+- live-refreshes stars, descriptions and push dates from the public GitHub
+  API on every page load
+- search across egg names, variables and engines; per-collection filters
+- domain-agnostic (relative asset paths, no absolute URLs), so it works on
+  `potenfyr-studios.github.io/potenfyr-nest/` today and on a custom domain
+  later without changes
+
+## ➕ Adding a new collection
 
 Create a repository in the org named `Something-Eggs` — for example:
 
@@ -26,13 +80,14 @@ Create a repository in the org named `Something-Eggs` — for example:
 - `Proxies-Eggs`
 
 That is the whole process. The next sync run (at most 30 minutes later)
-discovers the repo, mirrors it into a top-level directory of the same name,
-and commits it here. No change to this repository is required.
+discovers the repo, adds its eggs to `catalog.json`, refreshes the README
+and redeploys the site. Any `*.json` file in the repo containing a `name`
+and `docker_images` object is picked up as an egg definition.
 
 Repos that do not follow the naming convention, or that need a pinned
 branch, go into `egg-sources.json` instead.
 
-## egg-sources.json
+## ⚙️ egg-sources.json
 
 ```json
 {
@@ -44,42 +99,66 @@ branch, go into `egg-sources.json` instead.
 }
 ```
 
-- `org` — org to discover and clone from.
-- `exclude` — repo names (case-insensitive) never mirrored, even if discovered.
+- `org` — org to discover and harvest from.
+- `exclude` — repo names (case-insensitive) never cataloged, even if discovered.
 - `sources` — explicit entries; `repo` required, `dir` defaults to the repo
   name, `ref` defaults to the upstream default branch.
 
-## How sync works
+## 🔄 How sync works
 
 `scripts/sync-eggs.sh`, driven by `.github/workflows/sync.yml`:
 
 - triggers: every 30 minutes, manual dispatch, and pushes to `main`
 - resolves the source list = `egg-sources.json` entries + org discovery
-- skips any repo whose upstream HEAD sha is unchanged since the last sync
-  (tracked in `.egg-sync-state.json`) — idle runs take seconds, commit nothing
-- mirrors each source with `rsync --delete`, so upstream deletions and
-  renames propagate
+- fetches each collection's metadata + shallow clone (read-only; upstream
+  repos are never written to)
+- harvests egg definitions into `docs/data/catalog.json`
+- refreshes the `<!-- NEST:START:* -->` blocks in this README
 - syncs each collection independently: a failing upstream is reported in
   the run summary and never blocks the others
-- deletes mirror directories of repos removed from the org
+- Pages redeploys only when `catalog.json` actually changed
 - commits once and pushes with a rebase retry if `main` moved mid-run
 
 Local use (after `gh auth login`):
 
 ```bash
-bash scripts/sync-eggs.sh            # sync, commit and push
-DRY_RUN=1 bash scripts/sync-eggs.sh  # sync only, no commit or push
+bash scripts/sync-eggs.sh            # regenerate catalog + README, commit and push
+DRY_RUN=1 bash scripts/sync-eggs.sh  # regenerate only, no commit or push
 ```
 
-## Layout
+[![Commit activity](https://img.shields.io/github/commit-activity/m/PotenFYR-Studios/potenfyr-nest?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](https://github.com/PotenFYR-Studios/potenfyr-nest/commits/main)
+[![Last commit (main)](https://img.shields.io/github/last-commit/PotenFYR-Studios/potenfyr-nest/main?style=flat-square&logo=git&labelColor=1c1e26&color=8b5cf6)](https://github.com/PotenFYR-Studios/potenfyr-nest/commits/main)
+[![Repo size](https://img.shields.io/github/repo-size/PotenFYR-Studios/potenfyr-nest?style=flat-square&logo=github&labelColor=1c1e26&color=f97316)](../../)
+
+## 🗂️ Layout
 
 ```
 potenfyr-nest/
-├── Database-Eggs/          mirror
-├── Prog-Language-Eggs/     mirror
-├── Minecraft-Eggs/         mirror
-├── egg-sources.json        sync configuration (org, excludes, extra sources)
-├── scripts/sync-eggs.sh    sync implementation
-├── .egg-sync-state.json    last-synced upstream shas (managed by the script)
-└── .github/workflows/sync.yml
+├── docs/                       website (GitHub Pages)
+│   ├── index.html              single-page catalog UI
+│   ├── styles.css              brand theme (violet → pink → orange)
+│   ├── app.js                  catalog rendering + live GitHub API refresh
+│   └── data/catalog.json       auto-generated egg catalog (sync writes here)
+├── egg-sources.json            sync configuration (org, excludes, extra sources)
+├── scripts/sync-eggs.sh        catalog generator + README refresher
+└── .github/workflows/sync.yml  30-min sync + Pages deploy
 ```
+
+---
+
+<div align="center">
+
+### 📫 Connect With Us
+
+[![GitHub](https://img.shields.io/badge/GitHub-PotenFYR--Studios-181717?style=for-the-badge&logo=github&labelColor=1c1e26)](https://github.com/PotenFYR-Studios)
+[![Website](https://img.shields.io/badge/Website-potenfyr.in-8b5cf6?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=1c1e26)](https://potenfyr.in)
+[![Community](https://img.shields.io/badge/Community-Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=1c1e26)](https://discord.com/invite/zUaN2FPBec)
+[![Support](https://img.shields.io/badge/Support-Server-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=1c1e26)](https://discord.com/invite/PRJASTKqwD)
+[![Modrinth](https://img.shields.io/badge/Modrinth-Organization-1bd96a?style=for-the-badge&logo=modrinth&logoColor=white&labelColor=1c1e26)](https://modrinth.com/organization/potenfyr)
+
+<sub>🥚 Every egg. One nest. Synced every 30 minutes by [GitHub Actions](https://github.com/PotenFYR-Studios/potenfyr-nest/actions/workflows/sync.yml).</sub>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:f97316,50:ec4899,100:8b5cf6&height=120&section=footer&text=Made%20with%20%E2%9D%A4%EF%B8%8F%20by%20PotenFYR%20Studios&fontSize=22&fontColor=ffffff&animation=twinkling" width="100%" alt="footer"/>
+
+</div>
+<!-- markdownlint-enable -->

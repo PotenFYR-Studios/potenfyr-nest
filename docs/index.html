@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PotenFYR Nest — Every Egg. One Nest.</title>
+  <meta name="description" content="Production-ready Pterodactyl, Pelican & Feather panel eggs for databases, 50+ programming languages and Minecraft — auto-synced from PotenFYR Studios.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥚</text></svg>">
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <nav class="nav">
+      <a class="brand" href="./">🥚 <span>PotenFYR&nbsp;<b>Nest</b></span></a>
+      <div class="nav-links">
+        <a href="https://github.com/PotenFYR-Studios" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://potenfyr.in" target="_blank" rel="noopener">Website</a>
+        <a href="https://discord.com/invite/zUaN2FPBec" target="_blank" rel="noopener">Discord</a>
+        <a class="btn-accent" href="https://github.com/PotenFYR-Studios/potenfyr-nest" target="_blank" rel="noopener">★ Star the nest</a>
+      </div>
+    </nav>
+
+    <div class="hero-inner">
+      <p class="kicker">PotenFYR Studios · egg catalog</p>
+      <h1>Every Egg. <span class="grad">One Nest.</span></h1>
+      <p class="sub">Production-ready eggs for <b>Pterodactyl</b>, <b>Pelican</b> and <b>Feather</b> —
+         every database, 50+ languages, every Minecraft server type. Auto-synced from the org, no mirrors.</p>
+
+      <div class="stats" id="stats">
+        <div class="stat"><span class="stat-num" id="stat-collections">–</span><span class="stat-label">collections</span></div>
+        <div class="stat"><span class="stat-num" id="stat-eggs">–</span><span class="stat-label">eggs</span></div>
+        <div class="stat"><span class="stat-num" id="stat-variables">–</span><span class="stat-label">variables</span></div>
+        <div class="stat"><span class="stat-num" id="stat-images">–</span><span class="stat-label">docker images</span></div>
+      </div>
+
+      <p class="sync-line" id="sync-line">
+        <span class="pulse" aria-hidden="true"></span>
+        <span id="sync-text">loading catalog…</span>
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="controls">
+      <input id="search" type="search" placeholder="Search eggs, variables, engines…  (e.g. redis, fabric, java 21)" autocomplete="off" spellcheck="false">
+      <div class="tabs" id="tabs" role="tablist" aria-label="Filter by collection"></div>
+    </div>
+
+    <noscript><p class="notice">JavaScript is disabled — raw catalog: <a href="data/catalog.json">data/catalog.json</a></p></noscript>
+    <p class="notice hidden" id="live-note"></p>
+
+    <div id="collections"></div>
+    <p class="empty hidden" id="empty">No eggs match your search.</p>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p><b>🥚 PotenFYR Nest</b> — catalog data auto-synced every 30 minutes by GitHub Actions,
+         stars &amp; repo metadata refreshed live on every page load via the GitHub API.</p>
+      <p class="footer-links">
+        <a href="https://github.com/PotenFYR-Studios" target="_blank" rel="noopener">GitHub</a> ·
+        <a href="https://potenfyr.in" target="_blank" rel="noopener">potenfyr.in</a> ·
+        <a href="https://modrinth.com/organization/potenfyr" target="_blank" rel="noopener">Modrinth</a> ·
+        <a href="https://discord.com/invite/PRJASTKqwD" target="_blank" rel="noopener">Support</a> ·
+        <a href="data/catalog.json">catalog.json</a>
+      </p>
+      <p class="fine">Made with ❤️ by PotenFYR Studios</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

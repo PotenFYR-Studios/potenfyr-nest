@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 #
-# sync-eggs.sh — mirror every egg collection in the org into this repository.
+# sync-eggs.sh — build the egg catalog for this repository.
+#
+# The egg collection repos stay the single source of truth: nothing is
+# mirrored here anymore. This script discovers every `*-Eggs` repo in the
+# org, reads the egg JSON definitions inside them, and generates:
+#
+#   docs/data/catalog.json   machine-readable catalog (the website consumes it)
+#   README.md                refreshes the <!-- NEST:START:* --> blocks
 #
 # Sources, in priority order (dedupe keeps the manifest entry):
 #   1. egg-sources.json "sources"  (explicit entries: repo / dir / ref)
@@ -8,24 +15,26 @@
 #      (case-insensitive) or exactly "Eggs"
 #
 # Behaviour:
-#   - per-repo upstream HEAD sha tracking in .egg-sync-state.json:
-#     unchanged repos are skipped entirely (no clone, no rsync, no commits)
-#   - each collection syncs independently; a failing upstream is reported
-#     but never blocks the others
-#   - upstream deletions and renames propagate (rsync --delete)
-#   - mirrors of repos removed from the org are pruned
-#   - single atomic commit + push (rebase-retried) when anything changed
+#   - read-only against upstream (metadata API + shallow clone); never pushes there
+#   - each collection is harvested independently; a failing upstream is
+#     reported but never blocks the others
+#   - catalog + README are regenerated every run (stars/descriptions drift
+#     even when the git sha is unchanged); the commit step is a no-op when
+#     nothing actually changed
 #
 # Environment:
 #   GH_TOKEN / gh auth login   GitHub credentials that can read the org
 #   GH_EGGS_ORG                override org (default: egg-sources.json .org)
 #   GH_EGGS_MANIFEST           override manifest path (default: egg-sources.json)
-#   DRY_RUN=1                  sync only; skip commit and push
+#   GH_EGGS_CATALOG_DIR        where catalog.json is written (default: docs/data)
+#   GH_EGGS_README             README path to refresh (default: README.md)
+#   DRY_RUN=1                  generate only; skip commit and push
 
 set -euo pipefail
 
 MANIFEST="${GH_EGGS_MANIFEST:-egg-sources.json}"
-STATE_FILE=".egg-sync-state.json"
+CATALOG_DIR="${GH_EGGS_CATALOG_DIR:-docs/data}"
+README_FILE="${GH_EGGS_README:-README.md}"
 ORG_DEFAULT="PotenFYR-Studios"
 
 WORKDIR="$(mktemp -d)"
@@ -38,7 +47,7 @@ warn() { printf '%s\n' "$*" >&2; }
 # Preflight
 # ---------------------------------------------------------------------------
 
-for bin in gh jq rsync git; do
+for bin in gh jq git; do
   command -v "$bin" >/dev/null || { warn "error: $bin is required"; exit 1; }
 done
 
@@ -59,7 +68,7 @@ else
 fi
 ORG="${GH_EGGS_ORG:-${ORG:-$ORG_DEFAULT}}"
 
-log "syncing egg mirrors for org: ${ORG}"
+log "building egg catalog for org: ${ORG}"
 
 # ---------------------------------------------------------------------------
 # 1. Resolve the source list
@@ -101,10 +110,6 @@ if [[ -f "$MANIFEST" ]]; then
   fi
 fi
 
-# 1d. Directories currently mirrored (used for stale-mirror pruning below).
-CUR_DIRS="$WORKDIR/current_dirs.txt"
-cut -f2 "$ENTRIES" | grep -v '^$' | sort -u > "$CUR_DIRS" || :
-
 if [[ ! -s "$ENTRIES" ]]; then
   warn "error: no egg sources resolved (discovery returned nothing and manifest is empty)"
   exit 1
@@ -114,86 +119,158 @@ log "sources resolved:"
 cut -f1 "$ENTRIES" | sed 's/^/  - /'
 
 # ---------------------------------------------------------------------------
-# 2. Prune mirrors whose upstream repo no longer exists
+# 2. Harvest every collection (independently; failures never block the rest)
 # ---------------------------------------------------------------------------
 
-while IFS= read -r d; do
-  [[ -z "$d" ]] && continue
-  log "pruning stale mirror: ${d}/"
-  rm -rf -- "$d"
-done < <(find . -mindepth 1 -maxdepth 1 -type d -iname '*eggs' -printf '%f\n' \
-           | grep -v -x -i -F -f "$CUR_DIRS" || true)
-
-# ---------------------------------------------------------------------------
-# 3. Sync each source independently
-# ---------------------------------------------------------------------------
-
-updated=()
-skipped=()
+COLLECTIONS="$WORKDIR/collections.ndjson"
+: > "$COLLECTIONS"
 failed=()
-declare -A last_sha=()
-declare -A new_sha=()
-
-if [[ -f "$STATE_FILE" ]]; then
-  while IFS=$'\t' read -r k v; do
-    [[ -n "${k:-}" ]] && last_sha["$k"]="$v"
-  done < <(jq -r 'to_entries[] | [ .key, .value ] | @tsv' "$STATE_FILE")
-fi
 
 while IFS=$'\t' read -r repo dir ref; do
   [[ -z "$repo" ]] && continue
-  dir="${dir:-$repo}"
-  url="https://github.com/${ORG}/${repo}.git"
   refspec="${ref:-HEAD}"
 
-  if ! remote_sha="$(git ls-remote "$url" "$refspec" | awk 'NR==1 { print $1 }')" \
-     || [[ -z "$remote_sha" ]]; then
+  echo "::group::harvest ${repo}"
+  if ! meta="$(gh api "repos/${ORG}/${repo}" \
+        --jq '{repo:.name,
+               url:.html_url,
+               description:(.description // ""),
+               topics:(.topics // []),
+               language:(.language // ""),
+               stars:.stargazers_count,
+               forks:.forks_count,
+               open_issues:.open_issues_count,
+               license:(.license.spdx_id // ""),
+               default_branch:(.default_branch // "main"),
+               pushed_at:(.pushed_at // ""),
+               homepage:(.homepage // "")}' 2>/dev/null)"; then
+    warn "::warning::metadata fetch failed for ${ORG}/${repo}"
+    failed+=("$repo")
+    echo "::endgroup::"
+    continue
+  fi
+
+  sha="$(git ls-remote "https://github.com/${ORG}/${repo}.git" "$refspec" \
+          | awk 'NR==1 { print $1 }')"
+  if [[ -z "${sha:-}" ]]; then
     warn "::warning::could not resolve ${ORG}/${repo} (${refspec})"
     failed+=("$repo")
+    echo "::endgroup::"
     continue
   fi
 
-  # Skip unchanged upstreams that are already mirrored.
-  if [[ -d "$dir" && "${last_sha[$repo]:-}" == "$remote_sha" ]]; then
-    new_sha["$repo"]="$remote_sha"
-    skipped+=("$repo")
-    log "skipped (unchanged): ${repo} @ ${remote_sha:0:12}"
-    continue
-  fi
-
-  echo "::group::sync ${repo} -> ${dir}/ @ ${remote_sha:0:12}"
   clone="$WORKDIR/$repo"
-  if ! git clone --quiet --depth 1 ${ref:+--branch "$ref"} "$url" "$clone"; then
+  if ! git clone --quiet --depth 1 ${ref:+--branch "$ref"} \
+        "https://github.com/${ORG}/${repo}.git" "$clone" 2>/dev/null; then
     warn "::warning::clone failed for ${ORG}/${repo}"
     failed+=("$repo")
     echo "::endgroup::"
     continue
   fi
-  mkdir -p "$dir"
-  rsync -a --delete --exclude='.git' "$clone/" "$dir/"
+
+  # A JSON file counts as an egg definition when it has both a name and
+  # docker_images (any filename, any depth) — future repos need no changes here.
+  eggs="$WORKDIR/eggs.ndjson"
+  : > "$eggs"
+  while IFS= read -r -d '' f; do
+    rel="${f#"$clone"/}"
+    jq -c --arg path "$rel" '
+      select((.name | type) == "string" and (.docker_images | type) == "object")
+      | {
+          path: $path,
+          name: .name,
+          description: ((.description // "") | gsub("[\\n\\r\\t]+"; " ") |
+                        if length > 220 then .[0:217] + "..." else . end),
+          author: (.author // ""),
+          exported_at: (.exported_at // ""),
+          images: [ .docker_images | to_entries[] | { name: .key, uri: .value } ],
+          variables: [ .variables[]? | {
+              name: (.name // ""),
+              env_variable: (.env_variable // ""),
+              default_value: ((.default_value // "") | tostring)
+          } ],
+          features: (.features // []),
+          startup: ((.startup // "") | if length > 160 then .[0:157] + "..." else . end)
+        }' "$f" >> "$eggs" || warn "::warning::unparsable egg json skipped: ${repo}/${rel}"
+  done < <(find "$clone" -type f -name '*.json' -not -path '*/.git/*' -print0 | sort -z)
+
+  jq -cn --argjson meta "$meta" --arg sha "$sha" \
+        --slurpfile eggs "$eggs" \
+        '$meta + { upstream_sha: $sha, eggs: ($eggs // []) }' \
+        >> "$COLLECTIONS"
+
+  egg_count="$(jq -s 'length' "$eggs")"
+  log "harvested ${repo}: ${egg_count} egg(s)"
   rm -rf "$clone"
-  new_sha["$repo"]="$remote_sha"
-  updated+=("$repo")
   echo "::endgroup::"
 done < "$ENTRIES"
 
 # ---------------------------------------------------------------------------
-# 4. Persist the state file (only current sources keep an entry)
+# 3. Emit docs/data/catalog.json
 # ---------------------------------------------------------------------------
 
-state_tmp="$STATE_FILE.tmp"
-if (( ${#new_sha[@]} )); then
+mkdir -p "$CATALOG_DIR"
+# Deterministic "generated_at": the newest upstream push across collections.
+# Identical upstreams -> identical catalog -> no commit, no Pages redeploy.
+generated_at="$(jq -s -r '[.[].pushed_at | select(length > 0)] | max // "1970-01-01T00:00:00Z"' "$COLLECTIONS")"
+
+jq -s --arg org "$ORG" --arg generated_at "$generated_at" '
   {
-    for repo in "${!new_sha[@]}"; do
-      printf '%s\t%s\n' "$repo" "${new_sha[$repo]}"
-    done
-  } | jq -R -s 'split("\n")
-              | map(select(length > 0) | split("\t") | { (.[0]): .[1] })
-              | add // {}' > "$state_tmp"
-else
-  printf '{}\n' > "$state_tmp"
+    org: $org,
+    generated_at: $generated_at,
+    counts: {
+      collections: length,
+      eggs: ([.[].eggs | length] | add // 0),
+      variables: ([.[].eggs[].variables | length] | add // 0),
+      images:    ([.[].eggs[].images    | length] | add // 0)
+    },
+    collections: .
+  }' "$COLLECTIONS" > "$CATALOG_DIR/catalog.json"
+
+total_collections="$(jq '.counts.collections' "$CATALOG_DIR/catalog.json")"
+total_eggs="$(jq '.counts.eggs' "$CATALOG_DIR/catalog.json")"
+total_vars="$(jq '.counts.variables' "$CATALOG_DIR/catalog.json")"
+log "catalog written: ${CATALOG_DIR}/catalog.json (${total_collections} collections, ${total_eggs} eggs, ${total_vars} variables)"
+
+# ---------------------------------------------------------------------------
+# 4. Refresh the README marker blocks (left untouched if markers are missing)
+# ---------------------------------------------------------------------------
+
+refresh_block() {
+  local file="$1" start="$2" end="$3" insert_file="$4"
+  if ! grep -qF "$start" "$file"; then
+    warn "warning: ${start} not found in ${file}; block skipped"
+    return 0
+  fi
+  awk -v s="$start" -v e="$end" '
+    NR == FNR { ins = ins $0 ORS; next }
+    index($0, s) { print; printf "%s", ins; skip = 1; next }
+    index($0, e) { skip = 0 }
+    !skip { print }
+  ' "$insert_file" "$file" > "$file.tmp"
+  mv "$file.tmp" "$file"
+}
+
+STATS_BLOCK="$WORKDIR/readme-stats.md"
+TABLE_BLOCK="$WORKDIR/readme-table.md"
+
+{
+  printf '> 🥚 **%s** collections · **%s** eggs · **%s** variables — generated `%s`, refreshed by every sync run.\n' \
+    "$total_collections" "$total_eggs" "$total_vars" "$generated_at"
+} > "$STATS_BLOCK"
+
+{
+  printf '| 🗂️ Collection | Eggs | About | Stars | Last push |\n'
+  printf '|:---|:---:|:---|:---:|:---:|\n'
+  jq -r '.collections[] |
+    "| [\(.repo)](\(.url)) | \(.eggs | length) | \(.description | gsub("\\|"; "/")) | [![Stars](https://img.shields.io/github/stars/'"$ORG"'/\(.repo)?style=flat-square&logo=github&labelColor=1c1e26&color=eac54f)](\(.url)/stargazers) | [![Last push](https://img.shields.io/github/last-commit/'"$ORG"'/\(.repo)?style=flat-square&logo=git&labelColor=1c1e26&color=2ea043)](\(.url)/commits) |"' \
+    "$CATALOG_DIR/catalog.json"
+} > "$TABLE_BLOCK"
+
+if [[ -f "$README_FILE" ]]; then
+  refresh_block "$README_FILE" '<!-- NEST:START:stats -->'   '<!-- NEST:END:stats -->'   "$STATS_BLOCK"
+  refresh_block "$README_FILE" '<!-- NEST:START:catalog -->' '<!-- NEST:END:catalog -->' "$TABLE_BLOCK"
 fi
-mv "$state_tmp" "$STATE_FILE"
 
 # ---------------------------------------------------------------------------
 # 5. Commit and push (skipped under DRY_RUN)
@@ -205,16 +282,11 @@ if [[ "${DRY_RUN:-0}" == "1" ]]; then
 else
   git add -A .
   if ! git diff --cached --quiet; then
-    if (( ${#updated[@]} )); then
-      subject="sync: $(IFS=,; echo "${updated[*]}")"
-    else
-      subject="sync: egg mirrors"
-    fi
+    subject="catalog: sync egg catalog and site data"
     {
       echo "$subject"
       echo
-      echo "- updated: ${updated[*]:-none}"
-      echo "- skipped (unchanged): ${skipped[*]:-none}"
+      echo "- collections: ${total_collections}, eggs: ${total_eggs}, variables: ${total_vars}"
       echo "- failed: ${failed[*]:-none}"
     } > "$WORKDIR/commit-msg.txt"
     git commit --quiet --file="$WORKDIR/commit-msg.txt"
@@ -235,7 +307,7 @@ else
     fi
     log "pushed: $subject"
   else
-    log "mirrors already up to date; nothing to commit"
+    log "catalog already up to date; nothing to commit"
   fi
 fi
 
@@ -245,12 +317,13 @@ fi
 
 if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
   {
-    echo "## Egg mirror sync (${ORG})"
+    echo "## Egg catalog sync (${ORG})"
     echo
-    echo "| result | collections |"
+    echo "| result | value |"
     echo "|---|---|"
-    echo "| updated | ${updated[*]:-none} |"
-    echo "| skipped (unchanged) | ${skipped[*]:-none} |"
+    echo "| collections | ${total_collections} |"
+    echo "| eggs | ${total_eggs} |"
+    echo "| variables | ${total_vars} |"
     echo "| failed | ${failed[*]:-none} |"
   } >> "$GITHUB_STEP_SUMMARY"
 fi
@@ -260,4 +333,4 @@ if (( ${#failed[@]} > 0 )); then
   exit 1
 fi
 
-log "done: updated=${#updated[@]} skipped=${#skipped[@]} failed=0"
+log "done: collections=${total_collections} eggs=${total_eggs} failed=0"
