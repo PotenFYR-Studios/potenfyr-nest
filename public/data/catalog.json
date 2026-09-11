@@ -1,6 +1,6 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-11T22:01:34Z",
+  "generated_at": "2026-09-11T23:43:39Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
@@ -685,14 +685,14 @@
       ]
     },
     {
-      "default_branch": "main",
+      "default_branch": "master",
       "description": "Host any shell - incoming, tunneled, reversed, encrypted, covert, web or debug - from one panel egg. Credentials are the only mandatory input. Everything else is optional.",
       "forks": 0,
       "homepage": "https://potenfyr-studios.github.io/Shell-Eggs/",
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-11T22:01:34Z",
+      "pushed_at": "2026-09-11T23:43:39Z",
       "repo": "Shell-Eggs",
       "stars": 1,
       "topics": [
@@ -705,7 +705,7 @@
         "shell"
       ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "6c88a3075daed7a552dc117d7b0afde36e8c7bda",
+      "upstream_sha": "a6b3a36b911bd90ba473ca0f0c10fbd2231ebdd1",
       "eggs": [
         {
           "path": "egg-shell-multi.json",
