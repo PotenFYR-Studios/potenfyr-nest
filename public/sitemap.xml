@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Single-page catalog: "/" is the only indexable HTML page. The catalog
+     JSON is a data asset and the egg repositories are external sites -
+     both are linked from the page itself. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://potenfyr-studios.github.io/potenfyr-nest/</loc>
+    <loc>https://nest.potenfyr.in/</loc>
     <changefreq>hourly</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://potenfyr-studios.github.io/potenfyr-nest/data/catalog.json</loc>
-    <changefreq>hourly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://github.com/PotenFYR-Studios/Database-Eggs</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://github.com/PotenFYR-Studios/Prog-Language-Eggs</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://github.com/PotenFYR-Studios/Minecraft-Eggs</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
   </url>
 </urlset>

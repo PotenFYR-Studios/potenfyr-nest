@@ -28,4 +28,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://potenfyr-studios.github.io/potenfyr-nest/sitemap.xml
+Sitemap: https://nest.potenfyr.in/sitemap.xml

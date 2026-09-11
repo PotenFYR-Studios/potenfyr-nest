@@ -1,6 +1,6 @@
 import { catalogSeed } from "../lib/data";
 
-const SITE = "https://potenfyr-studios.github.io/potenfyr-nest/";
+const SITE = "https://nest.potenfyr.in/";
 
 /**
  * JSON-LD structured data (2026 SEO/GEO): Organization + WebSite +

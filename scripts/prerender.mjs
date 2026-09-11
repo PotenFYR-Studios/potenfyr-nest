@@ -58,7 +58,7 @@ const staticHtml = `
 </div>`;
 
 // JSON-LD structured data (same graph the React app renders at runtime).
-const SITE = "https://potenfyr-studios.github.io/potenfyr-nest/";
+const SITE = "https://nest.potenfyr.in/";
 const faqPairs = [
   ["What is PotenFYR Nest?", "PotenFYR Nest is the official egg catalog of PotenFYR Studios. It indexes every multi egg the studio publishes for hosting panels and links each egg definition back to its source repository. The catalog is rebuilt automatically every 30 minutes."],
   ["What is a multi egg?", "A multi egg is a single Pterodactyl, Pelican or Feather egg that ships many engines or runtimes in one image and installs what you pick on demand: every database, 50+ programming languages, or every Minecraft server type."],
