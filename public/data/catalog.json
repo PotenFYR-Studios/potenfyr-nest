@@ -1,6 +1,6 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-11T23:43:39Z",
+  "generated_at": "2026-09-11T23:50:58Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
@@ -9,14 +9,14 @@
   },
   "collections": [
     {
-      "default_branch": "main",
+      "default_branch": "master",
       "description": "One egg. Every database. Every version. Every panel. Production-ready multi-database eggs for Pterodactyl, Pelican, Feather, Wisp, and Docker.",
       "forks": 0,
       "homepage": "https://potenfyr.in",
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-10T20:18:53Z",
+      "pushed_at": "2026-09-11T23:50:29Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "e5e06ce3f127aaee80dff8967abdc782efea7c0e",
+      "upstream_sha": "641bb9d852a24eeae48d900589aca4fc1ddc593d",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -200,14 +200,14 @@
       ]
     },
     {
-      "default_branch": "main",
+      "default_branch": "master",
       "description": "Universal Minecraft egg for Pterodactyl, Pelican, and Feather Panel. Supports Vanilla, Paper, Purpur, Fabric, Forge, NeoForge, Velocity, Bedrock, and all 18+ server types.",
       "forks": 0,
       "homepage": "https://potenfyr.in",
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-10T20:18:55Z",
+      "pushed_at": "2026-09-11T23:50:45Z",
       "repo": "Minecraft-Eggs",
       "stars": 1,
       "topics": [
@@ -231,7 +231,7 @@
         "velocity"
       ],
       "url": "https://github.com/PotenFYR-Studios/Minecraft-Eggs",
-      "upstream_sha": "c2318cdac37ad4b0d97e5495f2f1bd1d080435a4",
+      "upstream_sha": "7262ffdd5146ac9b36d007d11911b342dcd9b2f1",
       "eggs": [
         {
           "path": "egg-minecraft-multi.json",
@@ -428,14 +428,14 @@
       ]
     },
     {
-      "default_branch": "main",
+      "default_branch": "master",
       "description": "One egg. One image. Every language. A production-grade hosting platform that installs, updates, compiles and runs 50+ programming languages inside your container - across Pterodactyl, Pelican, Feather Panel, PufferPanel, Jexactyl, Wisp, Emerald, Kubernetes, Fly.io, Railway, Render",
       "forks": 0,
       "homepage": "https://potenfyr.in",
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-10T20:18:57Z",
+      "pushed_at": "2026-09-11T23:50:55Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -455,7 +455,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "681af8e103ac043e17af8e2d486e81ab22ea0485",
+      "upstream_sha": "bb0c9573e001331b33b5930c9c16bdc005ceccbd",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
@@ -692,7 +692,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-11T23:43:39Z",
+      "pushed_at": "2026-09-11T23:50:58Z",
       "repo": "Shell-Eggs",
       "stars": 1,
       "topics": [
@@ -705,7 +705,7 @@
         "shell"
       ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "a6b3a36b911bd90ba473ca0f0c10fbd2231ebdd1",
+      "upstream_sha": "6c8b649246fd4f2a80a3a3a20e529944d1758f15",
       "eggs": [
         {
           "path": "egg-shell-multi.json",
