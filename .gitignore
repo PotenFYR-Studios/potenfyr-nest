@@ -32,3 +32,8 @@ Thumbs.db
 
 # --- PotenFYR Studios: baseline hygiene ---
 coverage/
+
+# Local agent/assistant artifacts (do not commit)
+CLAUDE.md
+.rtk
+.plan
