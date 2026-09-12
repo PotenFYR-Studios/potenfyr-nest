@@ -2,7 +2,7 @@
     "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
     "meta": {
         "version": "PTDL_v2",
-        "update_url": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/egg-shell-multi.json"
+        "update_url": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/master/egg-shell-multi.json"
     },
     "exported_at": "2026-09-10T18:00:00+00:00",
     "name": "Multi Shell",
@@ -15,7 +15,7 @@
         "Universal Multi-Shell (All Types)": "ghcr.io/potenfyr-studios/shell-eggs:latest"
     },
     "file_denylist": [],
-    "startup": "if [ -f /entrypoint.sh ]; then exec bash /entrypoint.sh; elif [ -f /usr/local/bin/entrypoint.sh ]; then exec bash /usr/local/bin/entrypoint.sh; elif [ -f ./entrypoint.sh ]; then exec bash ./entrypoint.sh; else echo \"[startup] Fetching remote entrypoint bootstrap...\"; (curl -fsSL --retry 3 https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/entrypoint.sh || wget -qO- https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/entrypoint.sh) | tr -d \"\\r\" | exec bash; fi",
+    "startup": "if [ -f /entrypoint.sh ]; then exec bash /entrypoint.sh; elif [ -f /usr/local/bin/entrypoint.sh ]; then exec bash /usr/local/bin/entrypoint.sh; elif [ -f ./entrypoint.sh ]; then exec bash ./entrypoint.sh; else echo \"[startup] Fetching remote entrypoint bootstrap...\"; (curl -fsSL --retry 3 https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/master/entrypoint.sh || wget -qO- https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/master/entrypoint.sh) | tr -d \"\\r\" | exec bash; fi",
     "config": {
         "files": "{}",
         "startup": "{\"done\":[\"Supervisor online\",\"ready\",\"Listening\"],\"user_interaction\":[\"login:\",\"pick\"],\"strip_ansi\":false}",
@@ -254,7 +254,7 @@
             "name": "Egg Update URL",
             "description": "Check on startup and self-update the launcher when the upstream egg changed (raw GitHub egg JSON or entrypoint URL).",
             "env_variable": "EGG_UPDATE_URL",
-            "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/egg-shell-multi.json",
+            "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/master/egg-shell-multi.json",
             "user_viewable": true,
             "user_editable": true,
             "rules": "nullable|string|max:512",

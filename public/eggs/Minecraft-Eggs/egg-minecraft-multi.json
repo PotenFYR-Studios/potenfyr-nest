@@ -40,7 +40,7 @@
   "description": "One egg for every Minecraft server: Vanilla, Paper, Spigot, Purpur, Folia, Forge, NeoForge, Fabric, Quilt, Mohist, Magma, BungeeCord, Velocity, Waterfall, Bedrock, Nukkit, PocketMine-MP, GitHub releases and custom jars - every version from Alpha to 26.x including snapshots, with automatic Java selection, safe instance switching on type/version changes, tuned performance flags, plugin/world installers and full error diagnostics. By PotenFYR Studios (support@potenfyr.in).",
   "meta": {
     "version": "PTDL_v2",
-    "update_url": "https://raw.githubusercontent.com/PotenFYR-Studios/Minecraft-Eggs/main/egg-minecraft-multi.json"
+    "update_url": "https://raw.githubusercontent.com/PotenFYR-Studios/Minecraft-Eggs/master/egg-minecraft-multi.json"
   },
   "author": "support@potenfyr.in",
   "variables": [
@@ -328,7 +328,7 @@
       "name": "Egg Update URL",
       "description": "URL checked on every startup for egg/launcher self-updates. Points at the PotenFYR egg JSON by default; when it changes, the launcher scripts are refreshed automatically. Can also point at a raw .sh URL to update the launcher directly.",
       "env_variable": "EGG_UPDATE_URL",
-      "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Minecraft-Eggs/main/egg-minecraft-multi.json",
+      "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Minecraft-Eggs/master/egg-minecraft-multi.json",
       "user_viewable": true,
       "user_editable": true,
       "rules": "nullable|string|url",

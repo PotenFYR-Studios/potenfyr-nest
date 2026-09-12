@@ -1,6 +1,6 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-12T00:06:48Z",
+  "generated_at": "2026-09-12T13:52:50Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
@@ -16,7 +16,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-11T23:50:29Z",
+      "pushed_at": "2026-09-12T13:52:43Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "641bb9d852a24eeae48d900589aca4fc1ddc593d",
+      "upstream_sha": "e0bec6b4671ace49cfb335c2641c105541b00318",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -169,7 +169,7 @@
             {
               "name": "Egg Update URL",
               "env_variable": "EGG_UPDATE_URL",
-              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Database-Eggs/main/egg-database-multi.json"
+              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Database-Eggs/master/egg-database-multi.json"
             },
             {
               "name": "Auto Update Egg",
@@ -207,7 +207,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-11T23:50:45Z",
+      "pushed_at": "2026-09-12T13:52:45Z",
       "repo": "Minecraft-Eggs",
       "stars": 1,
       "topics": [
@@ -231,7 +231,7 @@
         "velocity"
       ],
       "url": "https://github.com/PotenFYR-Studios/Minecraft-Eggs",
-      "upstream_sha": "7262ffdd5146ac9b36d007d11911b342dcd9b2f1",
+      "upstream_sha": "4f0e042020dc1262397cd90e1a9d850ff4c23dcf",
       "eggs": [
         {
           "path": "egg-minecraft-multi.json",
@@ -390,7 +390,7 @@
             {
               "name": "Egg Update URL",
               "env_variable": "EGG_UPDATE_URL",
-              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Minecraft-Eggs/main/egg-minecraft-multi.json"
+              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Minecraft-Eggs/master/egg-minecraft-multi.json"
             },
             {
               "name": "Auto Update Egg",
@@ -435,7 +435,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-11T23:50:55Z",
+      "pushed_at": "2026-09-12T13:52:48Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -455,7 +455,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "bb0c9573e001331b33b5930c9c16bdc005ceccbd",
+      "upstream_sha": "2d438a8c73889287269fc55acca1941d647f7cb9",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
@@ -654,7 +654,7 @@
             {
               "name": "Egg Update URL",
               "env_variable": "EGG_UPDATE_URL",
-              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Prog-Language-Eggs/main/egg-programming-multi.json"
+              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Prog-Language-Eggs/master/egg-programming-multi.json"
             },
             {
               "name": "Auto Update Egg",
@@ -692,7 +692,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-12T00:06:48Z",
+      "pushed_at": "2026-09-12T13:52:50Z",
       "repo": "Shell-Eggs",
       "stars": 1,
       "topics": [
@@ -705,7 +705,7 @@
         "shell"
       ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "6a2a8b344fca56917bd365831e4bf24ac26b8324",
+      "upstream_sha": "3f77cd47918ee19093ec6cb36875841ec15a3b91",
       "eggs": [
         {
           "path": "egg-shell-multi.json",
@@ -834,7 +834,7 @@
             {
               "name": "Egg Update URL",
               "env_variable": "EGG_UPDATE_URL",
-              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/main/egg-shell-multi.json"
+              "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Shell-Eggs/master/egg-shell-multi.json"
             },
             {
               "name": "Auto Update Egg",
