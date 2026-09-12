@@ -1,0 +1,19 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🥚 Egg problems or requests
+    url: https://github.com/PotenFYR-Studios/Database-Eggs
+    about: >
+      Eggs live in the *-Eggs collection repositories (Database-Eggs,
+      Minecraft-Eggs, Prog-Language-Eggs, Shell-Eggs). This repo only renders
+      the generated catalog; egg bugs and egg requests belong upstream.
+  - name: 💬 Support Discord
+    url: https://discord.com/invite/zUaN2FPBec
+    about: Quick questions and general chat about PotenFYR Studios projects.
+  - name: 🔒 Security vulnerabilities
+    url: https://github.com/PotenFYR-Studios/potenfyr-nest/security/advisories/new
+    about: >
+      Please report security issues privately; do not open a public issue.
+      See SECURITY.md for scope and safe harbor.
+  - name: 🌐 PotenFYR Studios
+    url: https://potenfyr.in
+    about: The studio behind the nest.

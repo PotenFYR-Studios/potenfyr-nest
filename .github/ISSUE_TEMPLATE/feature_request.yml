@@ -1,0 +1,35 @@
+name: ✨ Feature request
+description: Suggest an improvement to the catalog site or the sync pipeline.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Want a **new egg or engine**? That belongs in the [*-Eggs collection
+        repositories](https://github.com/PotenFYR-Studios/Database-Eggs); see
+        [CONTRIBUTING.md](../blob/master/CONTRIBUTING.md) for the flow.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation
+      description: What are you trying to do that the site or pipeline makes hard?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should change, concretely?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This is about the nest site/pipeline, not an egg feature
+          required: true

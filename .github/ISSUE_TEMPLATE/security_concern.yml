@@ -1,0 +1,31 @@
+name: 🔒 Security concern
+description: Non-confidential security questions about the site or pipeline.
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Stop here if this is a real vulnerability.** Do **not** post
+        vulnerability details, exploit steps or proof-of-concept payloads in
+        a public issue. Confidential reports go through private vulnerability
+        reporting or [SECURITY.md](../blob/master/SECURITY.md).
+
+        Use this template only for questions that are safe to discuss
+        publicly (e.g. "which headers does the site set?" or "how does the
+        sync workflow authenticate?").
+  - type: textarea
+    id: concern
+    attributes:
+      label: Your question or concern
+      description: Keep it free of exploit details, secrets and credentials.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This is safe to discuss publicly; no exploit details, PoCs, secrets or credentials
+          required: true
+        - label: If this turns out to be a real vulnerability, I will move it to private reporting
+          required: true

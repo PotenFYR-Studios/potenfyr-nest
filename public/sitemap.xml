@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Single-page catalog: "/" is the only indexable HTML page. The catalog
-     JSON is a data asset and the egg repositories are external sites -
-     both are linked from the page itself. -->
+<!-- Catalog "/" plus the about/docs/examples pages. The catalog JSON and
+     the egg repositories are data assets, linked from the pages themselves. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nest.potenfyr.in/</loc>
     <changefreq>hourly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://nest.potenfyr.in/about</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nest.potenfyr.in/docs</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nest.potenfyr.in/examples</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

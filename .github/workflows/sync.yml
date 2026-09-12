@@ -10,10 +10,8 @@ on:
     paths-ignore:
       - "**.md"
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+# Minimal default; each job grants only what it needs.
+permissions: {}
 
 concurrency:
   group: sync-eggs
@@ -26,10 +24,12 @@ jobs:
     timeout-minutes: 30
     outputs:
       changed: ${{ steps.sync.outputs.changed }}
+    permissions:
+      contents: write # commit the regenerated catalog and push to master
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -55,10 +55,14 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read # checkout
+      pages: write # deploy the Pages artifact
+      id-token: write # OIDC for the Pages deployment
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -75,15 +79,15 @@ jobs:
         run: bun scripts/prerender.mjs
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
         with:
           enablement: true
 
       - name: Upload site
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

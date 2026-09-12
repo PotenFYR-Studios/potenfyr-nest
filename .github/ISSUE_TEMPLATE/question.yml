@@ -1,0 +1,22 @@
+name: ❓ Question
+description: Ask how something in the nest works.
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Quick answers often live in the [docs](https://nest.potenfyr.in/docs)
+        and [FAQ](https://nest.potenfyr.in/#faq-heading). Egg usage questions
+        are usually faster in the [Support
+        Discord](https://discord.com/invite/zUaN2FPBec).
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What you already tried or read.

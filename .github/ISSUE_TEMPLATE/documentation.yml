@@ -1,0 +1,35 @@
+name: 📚 Documentation
+description: Report unclear, wrong or missing documentation.
+labels: ["documentation"]
+body:
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where is the documentation issue?
+      options:
+        - Site pages (/about, /docs, /examples)
+        - README.md
+        - CONTRIBUTING.md
+        - SECURITY.md
+        - Egg repo README (report upstream)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: URL or file and section
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong or missing?
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix
+      description: Proposed wording or content, if you have it.
