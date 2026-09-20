@@ -466,6 +466,56 @@
       "user_editable": true,
       "rules": "nullable|string|in:auto,citrus,aurora,sunset,ocean,candy,spectrum,none",
       "field_type": "text"
+    },
+    {
+      "name": "Git Preserve .env",
+      "description": "Keep every existing .env in its original location across repo syncs: the old credentials are restored after new GitHub files land, so the project never breaks (1 = Enabled, 0 = let repo .env files win).",
+      "env_variable": "GIT_PRESERVE_ENV",
+      "default_value": "1",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Browser Support",
+      "description": "Prepare the baked Chromium/chromedriver automation stack (Playwright, Puppeteer, nodriver, Selenium): writable profile + browser caches and container-safe default flags (1 = Enabled, 0 = Disabled).",
+      "env_variable": "BROWSER_SUPPORT",
+      "default_value": "1",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Browser Extra Args",
+      "description": "Extra chromium flags exported as CHROMIUM_FLAGS for every driver. Defaults to container-safe values; extend freely (e.g. --lang=en-US --window-size=1280,720).",
+      "env_variable": "BROWSER_EXTRA_ARGS",
+      "default_value": "--no-sandbox --disable-dev-shm-usage",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
+    },
+    {
+      "name": "Browser Headful",
+      "description": "Start a virtual Xvfb display so headed (non-headless) browser automation works inside the container (1 = start Xvfb, 0 = headless only).",
+      "env_variable": "BROWSER_HEADFUL",
+      "default_value": "0",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Browser Profile Dir",
+      "description": "Writable chromium user-data-dir (BROWSER_PROFILE_DIR) your automation can pass as its profile; lives outside synced/volume-critical paths.",
+      "env_variable": "BROWSER_PROFILE_DIR",
+      "default_value": "/home/container/.browser-profile",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string",
+      "field_type": "text"
     }
   ]
 }

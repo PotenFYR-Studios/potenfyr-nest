@@ -1,10 +1,10 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-20T05:45:26Z",
+  "generated_at": "2026-09-20T08:53:53Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
-    "variables": 143,
+    "variables": 154,
     "images": 4
   },
   "collections": [
@@ -16,7 +16,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-20T05:45:19Z",
+      "pushed_at": "2026-09-20T06:55:38Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "2987388aae2c5b4c8672161957e603050ea1e954",
+      "upstream_sha": "22a24ddf4a369e982c3a9d457eed09eca4bafd9e",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -167,6 +167,16 @@
               "default_value": "1"
             },
             {
+              "name": "Git Preserve .env",
+              "env_variable": "GIT_PRESERVE_ENV",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Exclude Paths",
+              "env_variable": "GIT_EXCLUDE",
+              "default_value": ""
+            },
+            {
               "name": "Git Auto Update",
               "env_variable": "GIT_AUTO_UPDATE",
               "default_value": "1"
@@ -217,7 +227,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-20T05:45:21Z",
+      "pushed_at": "2026-09-20T08:53:53Z",
       "repo": "Minecraft-Eggs",
       "stars": 1,
       "topics": [
@@ -241,7 +251,7 @@
         "velocity"
       ],
       "url": "https://github.com/PotenFYR-Studios/Minecraft-Eggs",
-      "upstream_sha": "383b89b130118426ab6294caf76541d60cd56bca",
+      "upstream_sha": "c694e718bb249456420f5ad1d88798fc74227b5f",
       "eggs": [
         {
           "path": "egg-minecraft-multi.json",
@@ -448,6 +458,16 @@
               "default_value": "1"
             },
             {
+              "name": "Git Preserve .env",
+              "env_variable": "GIT_PRESERVE_ENV",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Exclude Paths",
+              "env_variable": "GIT_EXCLUDE",
+              "default_value": ""
+            },
+            {
               "name": "Git Auto Update",
               "env_variable": "GIT_AUTO_UPDATE",
               "default_value": "1"
@@ -475,7 +495,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-20T05:45:24Z",
+      "pushed_at": "2026-09-20T06:57:31Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -495,7 +515,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "a2cef9b259d6f4bdca6995abaa64cc3df17e26d0",
+      "upstream_sha": "7f0dab00252ead6307c2fcfa3f48817d4dfa186e",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
@@ -725,6 +745,31 @@
               "name": "Banner Gradient",
               "env_variable": "CLI_BANNER_GRADIENT",
               "default_value": "auto"
+            },
+            {
+              "name": "Git Preserve .env",
+              "env_variable": "GIT_PRESERVE_ENV",
+              "default_value": "1"
+            },
+            {
+              "name": "Browser Support",
+              "env_variable": "BROWSER_SUPPORT",
+              "default_value": "1"
+            },
+            {
+              "name": "Browser Extra Args",
+              "env_variable": "BROWSER_EXTRA_ARGS",
+              "default_value": "--no-sandbox --disable-dev-shm-usage"
+            },
+            {
+              "name": "Browser Headful",
+              "env_variable": "BROWSER_HEADFUL",
+              "default_value": "0"
+            },
+            {
+              "name": "Browser Profile Dir",
+              "env_variable": "BROWSER_PROFILE_DIR",
+              "default_value": "/home/container/.browser-profile"
             }
           ],
           "features": [
@@ -742,7 +787,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-20T05:45:26Z",
+      "pushed_at": "2026-09-20T08:06:45Z",
       "repo": "Shell-Eggs",
       "stars": 1,
       "topics": [
@@ -755,7 +800,7 @@
         "shell"
       ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "4b33ccf9cc7e331c8b72219113468e03a6778403",
+      "upstream_sha": "017d2af25bbd3392d7ead1f09e3b9f03b2271498",
       "eggs": [
         {
           "path": "egg-shell-multi.json",
@@ -910,6 +955,16 @@
               "name": "Git Archive On Update",
               "env_variable": "GIT_ARCHIVE_ON_UPDATE",
               "default_value": "1"
+            },
+            {
+              "name": "Git Preserve .env",
+              "env_variable": "GIT_PRESERVE_ENV",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Exclude Paths",
+              "env_variable": "GIT_EXCLUDE",
+              "default_value": ""
             },
             {
               "name": "Git Auto Update",
