@@ -1,10 +1,10 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-13T23:02:26Z",
+  "generated_at": "2026-09-20T01:03:19Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
-    "variables": 127,
+    "variables": 143,
     "images": 4
   },
   "collections": [
@@ -16,7 +16,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-13T23:02:26Z",
+      "pushed_at": "2026-09-20T01:02:24Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "703097bb1cdc1fb631123d1059959534b48e90d6",
+      "upstream_sha": "b83971cb50844054c04ff41a2526c8ae9083aed9",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -43,7 +43,7 @@
           "name": "Multi Database",
           "description": "One egg. Every database. Every version. Supports 55+ SQL, NoSQL, In-Memory, Vector, Time-Series, Search, Graph and Object-Storage engines. Versions install isolated inside the container on demand from startup variable...",
           "author": "support@potenfyr.in",
-          "exported_at": "2026-08-22T04:00:00+00:00",
+          "exported_at": "2026-09-20T00:00:00+00:00",
           "images": [
             {
               "name": "Universal Multi-Database (All Engines)",
@@ -167,6 +167,16 @@
               "default_value": "1"
             },
             {
+              "name": "Git Auto Update",
+              "env_variable": "GIT_AUTO_UPDATE",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Poll Interval",
+              "env_variable": "GIT_POLL_SECONDS",
+              "default_value": "300"
+            },
+            {
               "name": "Egg Update URL",
               "env_variable": "EGG_UPDATE_URL",
               "default_value": "https://raw.githubusercontent.com/PotenFYR-Studios/Database-Eggs/master/egg-database-multi.json"
@@ -207,7 +217,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-12T21:16:05Z",
+      "pushed_at": "2026-09-20T01:02:43Z",
       "repo": "Minecraft-Eggs",
       "stars": 1,
       "topics": [
@@ -231,7 +241,7 @@
         "velocity"
       ],
       "url": "https://github.com/PotenFYR-Studios/Minecraft-Eggs",
-      "upstream_sha": "d19f67fb60725c0e0b4049c75ea90a7ad98c9bc4",
+      "upstream_sha": "ff0686bea82772484338206d81d7d3f7d29171f5",
       "eggs": [
         {
           "path": "egg-minecraft-multi.json",
@@ -239,7 +249,7 @@
           "name": "Multi Minecraft",
           "description": "One egg for every Minecraft server: Vanilla, Paper, Spigot, Purpur, Folia, Forge, NeoForge, Fabric, Quilt, Mohist, Magma, BungeeCord, Velocity, Waterfall, Bedrock, Nukkit, PocketMine-MP, GitHub releases and custom jar...",
           "author": "support@potenfyr.in",
-          "exported_at": "2026-08-22T00:00:00+00:00",
+          "exported_at": "2026-09-20T00:00:00+00:00",
           "images": [
             {
               "name": "Universal (Auto Java)",
@@ -416,6 +426,36 @@
               "name": "Custom Command",
               "env_variable": "CUSTOM_COMMAND",
               "default_value": "java -Xmx1024M -jar server.jar"
+            },
+            {
+              "name": "Git Repository URL",
+              "env_variable": "GIT_REPO_URL",
+              "default_value": ""
+            },
+            {
+              "name": "Git Branch",
+              "env_variable": "GIT_BRANCH",
+              "default_value": ""
+            },
+            {
+              "name": "Git Token",
+              "env_variable": "GIT_TOKEN",
+              "default_value": ""
+            },
+            {
+              "name": "Git Archive On Update",
+              "env_variable": "GIT_ARCHIVE_ON_UPDATE",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Auto Update",
+              "env_variable": "GIT_AUTO_UPDATE",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Poll Interval",
+              "env_variable": "GIT_POLL_SECONDS",
+              "default_value": "300"
             }
           ],
           "features": [
@@ -435,7 +475,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-12T21:16:05Z",
+      "pushed_at": "2026-09-20T01:01:31Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -455,7 +495,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "48788df38316418afe2b37860203b3f2c15afe88",
+      "upstream_sha": "378ea81e7c86d5130a677c076fc382f74fb2db3d",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
@@ -463,7 +503,7 @@
           "name": "Prog-Language Eggs",
           "description": "Prog-Language Eggs - one egg for 50+ programming languages with package managers, auto-detection, memory tuning, and Dev Watch mode.",
           "author": "support@potenfyr.in",
-          "exported_at": "2026-08-30T07:50:00+00:00",
+          "exported_at": "2026-09-20T00:00:00+00:00",
           "images": [
             {
               "name": "Multi-Language (50+ Languages)",
@@ -565,6 +605,16 @@
               "name": "Git Auth Token",
               "env_variable": "GIT_AUTH_TOKEN",
               "default_value": ""
+            },
+            {
+              "name": "Git Auto Update",
+              "env_variable": "GIT_AUTO_UPDATE",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Poll Interval",
+              "env_variable": "GIT_POLL_SECONDS",
+              "default_value": "300"
             },
             {
               "name": "Extra Download URLs",
@@ -692,7 +742,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-12T17:18:50Z",
+      "pushed_at": "2026-09-20T01:03:19Z",
       "repo": "Shell-Eggs",
       "stars": 1,
       "topics": [
@@ -705,7 +755,7 @@
         "shell"
       ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "ad5e0255012e09797afc8ab91a22cba4a2a19d4a",
+      "upstream_sha": "f1e2cbf247eda5e266adedce0ffed0f4ad1451ba",
       "eggs": [
         {
           "path": "egg-shell-multi.json",
@@ -713,7 +763,7 @@
           "name": "Multi Shell",
           "description": "One egg. Every shell. Every direction. SSH (incl. CA certificates + hardened keys-only), Dropbear, Telnet, Mosh, tmux/screen/zellij, SSH tunnels (-L -R -D, X11, rsync, sshfs), 20+ interpreter reverse shells (bash/pyth...",
           "author": "support@potenfyr.in",
-          "exported_at": "2026-09-10T18:00:00+00:00",
+          "exported_at": "2026-09-20T00:00:00+00:00",
           "images": [
             {
               "name": "Universal Multi-Shell (All Types)",
@@ -840,6 +890,36 @@
               "name": "Auto Update Egg",
               "env_variable": "AUTO_UPDATE_EGG",
               "default_value": "1"
+            },
+            {
+              "name": "Git Repository URL",
+              "env_variable": "GIT_REPO_URL",
+              "default_value": ""
+            },
+            {
+              "name": "Git Branch",
+              "env_variable": "GIT_BRANCH",
+              "default_value": ""
+            },
+            {
+              "name": "Git Token",
+              "env_variable": "GIT_TOKEN",
+              "default_value": ""
+            },
+            {
+              "name": "Git Archive On Update",
+              "env_variable": "GIT_ARCHIVE_ON_UPDATE",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Auto Update",
+              "env_variable": "GIT_AUTO_UPDATE",
+              "default_value": "1"
+            },
+            {
+              "name": "Git Poll Interval",
+              "env_variable": "GIT_POLL_SECONDS",
+              "default_value": "300"
             }
           ],
           "features": [

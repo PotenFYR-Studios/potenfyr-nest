@@ -4,7 +4,7 @@
     "version": "PTDL_v2",
     "update_url": "https://raw.githubusercontent.com/PotenFYR-Studios/Prog-Language-Eggs/master/egg-programming-multi.json"
   },
-  "exported_at": "2026-08-30T07:50:00+00:00",
+  "exported_at": "2026-09-20T00:00:00+00:00",
   "name": "Prog-Language Eggs",
   "author": "support@potenfyr.in",
   "description": "Prog-Language Eggs - one egg for 50+ programming languages with package managers, auto-detection, memory tuning, and Dev Watch mode.",
@@ -31,7 +31,7 @@
   },
   "scripts": {
     "installation": {
-      "script": "#!/bin/ash\n# PotenFYR Studios Multi-Language Installer\napk add --no-cache curl git ca-certificates\nINSTALL_DIR=\"/mnt/server\"\n[ ! -d \"${INSTALL_DIR}\" ] && INSTALL_DIR=\"${PWD}\"\ncd \"${INSTALL_DIR}\" || exit 1\n# Git sync rules (mirror of the launcher's sync_git_repo):\n#   * trim stray whitespace from panel Startup variables (breaks clones silently)\n#   * re-point origin at the CURRENT GIT_REPO/token and reset to FETCH_HEAD\n#     (origin/<branch> is stale on single-branch clones and branch switches)\n#   * fetch OVER a non-empty workspace instead of failing the clone (no wipe)\n#   * print the installed commit so latest-vs-old is verifiable in the console\nif [ -n \"${GIT_REPO:-}\" ]; then\n    GIT_REPO=$(printf '%s' \"${GIT_REPO}\" | tr -d ' \\t\\r\\n')\n    GIT_BRANCH=$(printf '%s' \"${GIT_BRANCH:-main}\" | tr -d ' \\t\\r\\n')\n    [ -n \"${GIT_BRANCH}\" ] || GIT_BRANCH=\"main\"\n    GIT_AUTH_TOKEN=$(printf '%s' \"${GIT_AUTH_TOKEN:-}\" | tr -d ' \\t\\r\\n')\n    GIT_TERMINAL_PROMPT=0\n    export GIT_TERMINAL_PROMPT\n    AUTH_URL=\"${GIT_REPO}\"\n    case \"${GIT_REPO}\" in\n        https://*) [ -n \"${GIT_AUTH_TOKEN}\" ] && AUTH_URL=\"https://${GIT_AUTH_TOKEN}@${GIT_REPO#https://}\" ;;\n    esac\n    echo \"[PotenFYR] Syncing repository (branch: ${GIT_BRANCH})...\"\n    if [ -d .git ]; then\n        git remote set-url origin \"${AUTH_URL}\" 2>/dev/null || git remote add origin \"${AUTH_URL}\" 2>/dev/null || true\n        if git fetch --depth 1 origin \"${GIT_BRANCH}\"; then\n            git reset --hard FETCH_HEAD || echo \"[PotenFYR][!] Fetched but could not apply commits - installed code kept.\"\n        else\n            echo \"[PotenFYR][!] Git fetch failed - keeping installed code (check URL, branch, token).\"\n        fi\n    elif [ -n \"$(find . -mindepth 1 -maxdepth 1 -print -quit 2>/dev/null)\" ]; then\n        echo \"[PotenFYR] Workspace has existing files - fetching repository over them (no wipe)...\"\n        git init -q . 2>/dev/null || true\n        git remote remove origin 2>/dev/null || true\n        git remote add origin \"${AUTH_URL}\" 2>/dev/null || true\n        if git fetch --depth 1 origin \"${GIT_BRANCH}\"; then\n            git reset --hard FETCH_HEAD || echo \"[PotenFYR][!] Fetched but could not apply commits - existing files kept.\"\n        else\n            echo \"[PotenFYR][!] Git fetch failed - keeping existing files (check URL, branch, token).\"\n        fi\n    else\n        git clone --branch \"${GIT_BRANCH}\" --depth 1 \"${AUTH_URL}\" . \\\n            || git clone --depth 1 \"${AUTH_URL}\" . \\\n            || echo \"[PotenFYR][!] Git clone failed - check URL, branch and credentials.\"\n    fi\n    COMMIT=$(git rev-parse --short HEAD 2>/dev/null) && echo \"[PotenFYR][i] Repository at commit ${COMMIT}\"\nfi\nchown -R 988:988 \"${INSTALL_DIR}\" 2>/dev/null || chown -R 1000:1000 \"${INSTALL_DIR}\" 2>/dev/null || chmod -R 777 \"${INSTALL_DIR}\" 2>/dev/null || true\necho \"[PotenFYR][✓] Installation complete. Workspace ready.\"\n",
+      "script": "#!/bin/ash\n# PotenFYR Studios Multi-Language Installer\napk add --no-cache curl git ca-certificates\nINSTALL_DIR=\"/mnt/server\"\n[ ! -d \"${INSTALL_DIR}\" ] && INSTALL_DIR=\"${PWD}\"\ncd \"${INSTALL_DIR}\" || exit 1\n# Git sync rules (mirror of the launcher's sync_git_repo):\n#   * trim stray whitespace from panel Startup variables (breaks clones silently)\n#   * isolated global git config marks the workspace safe: installs run as\n#     root, boots run as uid 988/1000 - an owner mismatch fails every git\n#     command since git 2.35.2 (\"dubious ownership\"), which blocked ALL updates\n#   * stale .git locks from killed installs are cleared before syncing\n#   * re-point origin at the CURRENT GIT_REPO/token and reset to FETCH_HEAD\n#     (origin/<branch> is stale on single-branch clones and branch switches)\n#   * an authenticated fetch/clone that fails is retried ONCE anonymously so a\n#     revoked/expired token cannot take PUBLIC repositories down with it\n#   * fetch OVER a non-empty workspace instead of failing the clone (no wipe)\n#   * print the installed commit so latest-vs-old is verifiable in the console\nif [ -n \"${GIT_REPO:-}\" ]; then\n    GIT_REPO=$(printf '%s' \"${GIT_REPO}\" | tr -d ' \\t\\r\\n')\n    GIT_BRANCH=$(printf '%s' \"${GIT_BRANCH:-main}\" | tr -d ' \\t\\r\\n')\n    [ -n \"${GIT_BRANCH}\" ] || GIT_BRANCH=\"main\"\n    GIT_AUTH_TOKEN=$(printf '%s' \"${GIT_AUTH_TOKEN:-}\" | tr -d ' \\t\\r\\n')\n    GIT_TERMINAL_PROMPT=0\n    export GIT_TERMINAL_PROMPT\n    AUTH_URL=\"${GIT_REPO}\"\n    case \"${GIT_REPO}\" in\n        https://*) [ -n \"${GIT_AUTH_TOKEN}\" ] && AUTH_URL=\"https://${GIT_AUTH_TOKEN}@${GIT_REPO#https://}\" ;;\n    esac\n    GITCFG=\"${TMPDIR:-/tmp}/potenfyr-gitconfig.$$\"\n    {\n        [ -f \"${HOME}/.gitconfig\" ] && cat \"${HOME}/.gitconfig\" 2>/dev/null\n        printf '[safe]\\n\\tdirectory = *\\n'\n        printf '[init]\\n\\tdefaultBranch = main\\n'\n    } > \"${GITCFG}\" 2>/dev/null || true\n    GIT_CONFIG_GLOBAL=\"${GITCFG}\"\n    export GIT_CONFIG_GLOBAL\n    echo \"[PotenFYR] Syncing repository (branch: ${GIT_BRANCH})...\"\n    if [ -d .git ]; then\n        for LCK in .git/index.lock .git/shallow.lock; do\n            if [ -f \"${LCK}\" ]; then\n                rm -f \"${LCK}\" 2>/dev/null || true\n                echo \"[PotenFYR][!] Removed stale git lock (${LCK}) from a previous run.\"\n            fi\n        done\n        git remote set-url origin \"${AUTH_URL}\" 2>/dev/null || git remote add origin \"${AUTH_URL}\" 2>/dev/null || true\n        if git fetch --depth 1 origin \"${GIT_BRANCH}\"; then\n            git reset --hard FETCH_HEAD || echo \"[PotenFYR][!] Fetched but could not apply commits - installed code kept.\"\n        elif [ -n \"${GIT_AUTH_TOKEN}\" ] && [ \"${AUTH_URL}\" != \"${GIT_REPO}\" ]; then\n            echo \"[PotenFYR][!] Authenticated fetch failed - retrying without credentials (public repository?)...\"\n            git fetch --depth 1 \"${GIT_REPO}\" \"${GIT_BRANCH}\" \\\n                && git reset --hard FETCH_HEAD \\\n                || echo \"[PotenFYR][!] Git fetch failed - keeping installed code (check URL, branch, token).\"\n        else\n            echo \"[PotenFYR][!] Git fetch failed - keeping installed code (check URL, branch, token).\"\n        fi\n    elif [ -n \"$(find . -mindepth 1 -maxdepth 1 -print -quit 2>/dev/null)\" ]; then\n        echo \"[PotenFYR] Workspace has existing files - fetching repository over them (no wipe)...\"\n        git init -q . 2>/dev/null || true\n        git symbolic-ref HEAD \"refs/heads/${GIT_BRANCH}\" 2>/dev/null || true\n        git remote remove origin 2>/dev/null || true\n        git remote add origin \"${AUTH_URL}\" 2>/dev/null || true\n        if git fetch --depth 1 origin \"${GIT_BRANCH}\"; then\n            git reset --hard FETCH_HEAD || echo \"[PotenFYR][!] Fetched but could not apply commits - existing files kept.\"\n        elif [ -n \"${GIT_AUTH_TOKEN}\" ] && [ \"${AUTH_URL}\" != \"${GIT_REPO}\" ]; then\n            echo \"[PotenFYR][!] Authenticated fetch failed - retrying without credentials (public repository?)...\"\n            git fetch --depth 1 \"${GIT_REPO}\" \"${GIT_BRANCH}\" \\\n                && git reset --hard FETCH_HEAD \\\n                || echo \"[PotenFYR][!] Git fetch failed - keeping existing files (check URL, branch, token).\"\n        else\n            echo \"[PotenFYR][!] Git fetch failed - keeping existing files (check URL, branch, token).\"\n        fi\n    else\n        git clone --branch \"${GIT_BRANCH}\" --depth 1 \"${AUTH_URL}\" . \\\n            || { [ -n \"${GIT_AUTH_TOKEN}\" ] && [ \"${AUTH_URL}\" != \"${GIT_REPO}\" ] && git clone --branch \"${GIT_BRANCH}\" --depth 1 \"${GIT_REPO}\" .; } \\\n            || git clone --depth 1 \"${AUTH_URL}\" . \\\n            || { [ -n \"${GIT_AUTH_TOKEN}\" ] && [ \"${AUTH_URL}\" != \"${GIT_REPO}\" ] && git clone --depth 1 \"${GIT_REPO}\" .; } \\\n            || echo \"[PotenFYR][!] Git clone failed - check URL, branch and credentials.\"\n    fi\n    COMMIT=$(git rev-parse --short HEAD 2>/dev/null) && echo \"[PotenFYR][i] Repository at commit ${COMMIT}\"\n    rm -f \"${GITCFG}\" 2>/dev/null || true\nfi\nchown -R 988:988 \"${INSTALL_DIR}\" 2>/dev/null || chown -R 1000:1000 \"${INSTALL_DIR}\" 2>/dev/null || chmod -R 777 \"${INSTALL_DIR}\" 2>/dev/null || true\necho \"[PotenFYR][✓] Installation complete. Workspace ready.\"\n",
       "container": "ghcr.io/pterodactyl/installers:alpine",
       "entrypoint": "ash"
     }
@@ -199,7 +199,7 @@
     },
     {
       "name": "Git Repository URL",
-      "description": "Git repository URL to clone and sync on startup.",
+      "description": "Git repository URL to clone and keep in sync (synced on every boot and, with Git Auto Update, polled while the server runs).",
       "env_variable": "GIT_REPO",
       "default_value": "",
       "user_viewable": true,
@@ -225,6 +225,26 @@
       "user_viewable": true,
       "user_editable": true,
       "rules": "nullable|string|max:255",
+      "field_type": "text"
+    },
+    {
+      "name": "Git Auto Update",
+      "description": "Poll the Git repository while the server runs and automatically apply new commits with a graceful application restart (1 = Enabled, 0 = sync on boot only).",
+      "env_variable": "GIT_AUTO_UPDATE",
+      "default_value": "1",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|boolean",
+      "field_type": "text"
+    },
+    {
+      "name": "Git Poll Interval",
+      "description": "How often, in seconds, Git Auto Update checks the repository for new commits (30-86400).",
+      "env_variable": "GIT_POLL_SECONDS",
+      "default_value": "300",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|numeric|min:30|max:86400",
       "field_type": "text"
     },
     {
