@@ -1,6 +1,6 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-30T16:56:33Z",
+  "generated_at": "2026-09-30T16:58:07Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
@@ -16,7 +16,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-29T09:34:34Z",
+      "pushed_at": "2026-09-30T16:58:07Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "7ac2b0a68871ec9d9afc45c02f55f0b8b83f83ee",
+      "upstream_sha": "be5ed079fc84a9031938705437ad552115d6c801",
       "eggs": [
         {
           "path": "egg-database-multi.json",
