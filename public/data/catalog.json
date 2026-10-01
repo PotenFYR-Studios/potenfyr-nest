@@ -1,6 +1,6 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-09-30T17:13:00Z",
+  "generated_at": "2026-10-01T19:25:22Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
@@ -787,7 +787,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-09-30T17:13:00Z",
+      "pushed_at": "2026-10-01T19:25:22Z",
       "repo": "Shell-Eggs",
       "stars": 1,
       "topics": [
@@ -800,7 +800,7 @@
         "shell"
       ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "3a99038c1767c3d148a4db88ecd93d6e8be385cc",
+      "upstream_sha": "ad92fa62c6fffc22a605b34d37ce8ad640870e12",
       "eggs": [
         {
           "path": "egg-shell-multi.json",
