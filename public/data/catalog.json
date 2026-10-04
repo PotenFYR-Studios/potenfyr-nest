@@ -11,7 +11,7 @@
     {
       "default_branch": "master",
       "description": "One egg. Every database. Every version. Every panel. Production-ready multi-database eggs for Pterodactyl, Pelican, Feather, Wisp, and Docker.",
-      "forks": 0,
+      "forks": 1,
       "homepage": "http://database-eggs.docs.potenfyr.in/",
       "language": "Shell",
       "license": "NOASSERTION",
