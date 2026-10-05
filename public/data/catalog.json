@@ -1,10 +1,10 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-10-05T04:51:34Z",
+  "generated_at": "2026-10-05T13:07:14Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
-    "variables": 155,
+    "variables": 157,
     "images": 4
   },
   "collections": [
@@ -16,7 +16,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-05T04:51:34Z",
+      "pushed_at": "2026-10-05T13:07:14Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "33e716782ba54a3b1728701c5b51aa4d4d4cd7d1",
+      "upstream_sha": "a2b4f45cbad7e098efcc0bbfe7fa46f29a77ed85",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -94,6 +94,16 @@
             {
               "name": "Restore Database Dump",
               "env_variable": "RESTORE_DUMP",
+              "default_value": "0"
+            },
+            {
+              "name": "Restore Dump Skip System Schemas",
+              "env_variable": "RESTORE_DUMP_SKIP_SYSTEM",
+              "default_value": "1"
+            },
+            {
+              "name": "Restore Dump Force",
+              "env_variable": "RESTORE_DUMP_FORCE",
               "default_value": "0"
             },
             {
