@@ -1,10 +1,10 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-10-04T20:50:51Z",
+  "generated_at": "2026-10-05T04:51:34Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
-    "variables": 154,
+    "variables": 155,
     "images": 4
   },
   "collections": [
@@ -16,7 +16,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-04T20:12:00Z",
+      "pushed_at": "2026-10-05T04:51:34Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "aabafabaf5c35f49dc461238e847281cdbee2e9d",
+      "upstream_sha": "33e716782ba54a3b1728701c5b51aa4d4d4cd7d1",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -90,6 +90,11 @@
               "name": "Auto Generate Strong Secrets",
               "env_variable": "AUTO_GENERATE_CREDENTIALS",
               "default_value": "1"
+            },
+            {
+              "name": "Restore Database Dump",
+              "env_variable": "RESTORE_DUMP",
+              "default_value": "0"
             },
             {
               "name": "Save Credentials to .env",

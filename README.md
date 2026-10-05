@@ -32,7 +32,7 @@ carries every engine in one image and installs the one you pick on demand.
 > to this repository.
 
 <!-- NEST:START:stats -->
-> 🥚 **4** collections · **4** eggs · **154** variables: generated `2026-10-04T20:50:51Z`, refreshed by every sync run.
+> 🥚 **4** collections · **4** eggs · **155** variables: generated `2026-10-05T04:51:34Z`, refreshed by every sync run.
 <!-- NEST:END:stats -->
 
 ## 🪄 Why multi eggs?
