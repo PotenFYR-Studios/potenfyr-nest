@@ -1,10 +1,10 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-10-05T13:07:14Z",
+  "generated_at": "2026-10-07T16:13:31Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
-    "variables": 157,
+    "variables": 158,
     "images": 4
   },
   "collections": [
@@ -16,7 +16,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-05T13:07:14Z",
+      "pushed_at": "2026-10-07T15:46:45Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "a2b4f45cbad7e098efcc0bbfe7fa46f29a77ed85",
+      "upstream_sha": "a161b46a6e3fe39d758fddcbf2eb85ef254525cd",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -105,6 +105,11 @@
               "name": "Restore Dump Force",
               "env_variable": "RESTORE_DUMP_FORCE",
               "default_value": "0"
+            },
+            {
+              "name": "Restore Dump Compatibility Mode",
+              "env_variable": "RESTORE_DUMP_COMPAT",
+              "default_value": "1"
             },
             {
               "name": "Save Credentials to .env",
@@ -242,7 +247,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-04T20:50:46Z",
+      "pushed_at": "2026-10-07T16:13:29Z",
       "repo": "Minecraft-Eggs",
       "stars": 1,
       "topics": [
@@ -266,7 +271,7 @@
         "velocity"
       ],
       "url": "https://github.com/PotenFYR-Studios/Minecraft-Eggs",
-      "upstream_sha": "7bb6f54d65902efefa18c4434bb58cac9961d013",
+      "upstream_sha": "6e9b4ce097e8e67d2178d3b6e13cca02bc11c9fb",
       "eggs": [
         {
           "path": "egg-minecraft-multi.json",
@@ -510,7 +515,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-04T20:50:48Z",
+      "pushed_at": "2026-10-07T16:13:31Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -530,7 +535,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "1d6240f3d607d88eb0da420a8cf2a6c30601fef6",
+      "upstream_sha": "20a8d924ef433fad7028a56a1d79dd0308a1c6c6",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
@@ -802,7 +807,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-04T20:50:51Z",
+      "pushed_at": "2026-10-07T15:47:13Z",
       "repo": "Shell-Eggs",
       "stars": 1,
       "topics": [
@@ -815,7 +820,7 @@
         "shell"
       ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "db4c1662fad367a0e2efce407e84cc4a7e1a938d",
+      "upstream_sha": "60df36c7e0058da317de37c285193806c7adfc0d",
       "eggs": [
         {
           "path": "egg-shell-multi.json",
