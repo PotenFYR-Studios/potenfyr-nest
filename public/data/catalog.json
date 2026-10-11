@@ -1,10 +1,10 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-10-09T09:27:54Z",
+  "generated_at": "2026-10-11T21:59:36Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
-    "variables": 158,
+    "variables": 162,
     "images": 4
   },
   "collections": [
@@ -12,11 +12,11 @@
       "default_branch": "master",
       "description": "One egg. Every database. Every version. Every panel. Production-ready multi-database eggs for Pterodactyl, Pelican, Feather, Wisp, and Docker.",
       "forks": 1,
-      "homepage": "http://database-eggs.docs.potenfyr.in/",
+      "homepage": "https://docs.potenfyr.in",
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-09T09:27:27Z",
+      "pushed_at": "2026-10-11T21:13:20Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "580b1a3bd108d615c9e86e48e0b340c72e9dcb91",
+      "upstream_sha": "174ff62839525c0cebb7cec7ccf504769475e624",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -119,6 +119,11 @@
             {
               "name": "Dynamic Performance Auto-Tuning",
               "env_variable": "PERFORMANCE_TUNING",
+              "default_value": "1"
+            },
+            {
+              "name": "PostgreSQL pgvector (AI embeddings)",
+              "env_variable": "PG_ENABLE_PGVECTOR",
               "default_value": "1"
             },
             {
@@ -243,7 +248,7 @@
       "default_branch": "master",
       "description": "Universal Minecraft egg for Pterodactyl, Pelican, and Feather Panel. Supports Vanilla, Paper, Purpur, Fabric, Forge, NeoForge, Velocity, Bedrock, and all 18+ server types.",
       "forks": 0,
-      "homepage": "http://minecraft-eggs.docs.potenfyr.in/",
+      "homepage": "https://docs.potenfyr.in",
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
@@ -511,11 +516,11 @@
       "default_branch": "master",
       "description": "One egg. One image. Every language. A production-grade hosting platform that installs, updates, compiles and runs 50+ programming languages inside your container - across Pterodactyl, Pelican, Feather Panel, PufferPanel, Jexactyl, Wisp, Emerald, Kubernetes, Fly.io, Railway, Render",
       "forks": 0,
-      "homepage": "http://prog-language-eggs.docs.potenfyr.in/",
+      "homepage": "https://docs.potenfyr.in",
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-09T09:27:49Z",
+      "pushed_at": "2026-10-11T21:59:36Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -535,7 +540,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "4cb3d90f7055aa941a150a7f63b624b46777d306",
+      "upstream_sha": "e8958bdad0bad8bf24293b445fd9e4b290f3b0b2",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
@@ -790,6 +795,21 @@
               "name": "Browser Profile Dir",
               "env_variable": "BROWSER_PROFILE_DIR",
               "default_value": "/home/container/.browser-profile"
+            },
+            {
+              "name": "Firefox Binary",
+              "env_variable": "FIREFOX_PATH",
+              "default_value": "/usr/bin/firefox-esr"
+            },
+            {
+              "name": "Geckodriver Path",
+              "env_variable": "GECKODRIVER_PATH",
+              "default_value": "/usr/local/bin/geckodriver"
+            },
+            {
+              "name": "Edge Binary",
+              "env_variable": "EDGE_PATH",
+              "default_value": "/usr/bin/microsoft-edge"
             }
           ],
           "features": [
@@ -803,7 +823,7 @@
       "default_branch": "master",
       "description": "Host any shell - incoming, tunneled, reversed, encrypted, covert, web or debug - from one panel egg. Credentials are the only mandatory input. Everything else is optional.",
       "forks": 0,
-      "homepage": "https://shell-eggs.docs.potenfyr.in/",
+      "homepage": "https://docs.potenfyr.in",
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
