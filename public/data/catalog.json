@@ -1,6 +1,6 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-10-12T18:55:42Z",
+  "generated_at": "2026-10-13T19:12:49Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
@@ -16,7 +16,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-12T18:55:42Z",
+      "pushed_at": "2026-10-13T18:49:24Z",
       "repo": "Database-Eggs",
       "stars": 1,
       "topics": [
@@ -35,7 +35,7 @@
         "pterodactyl-panel"
       ],
       "url": "https://github.com/PotenFYR-Studios/Database-Eggs",
-      "upstream_sha": "c7b3a4677150467433d98471e709d0939ba86489",
+      "upstream_sha": "118cf2d1c345ca09332f4b9b7fab6a29bf473b03",
       "eggs": [
         {
           "path": "egg-database-multi.json",
@@ -252,7 +252,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-09T09:27:40Z",
+      "pushed_at": "2026-10-13T19:12:49Z",
       "repo": "Minecraft-Eggs",
       "stars": 1,
       "topics": [
@@ -276,7 +276,7 @@
         "velocity"
       ],
       "url": "https://github.com/PotenFYR-Studios/Minecraft-Eggs",
-      "upstream_sha": "cd5ad732cb996d70e8348024726e077e6777d2a4",
+      "upstream_sha": "cca207293478ddf8d5c00f214c48567a7e1cc706",
       "eggs": [
         {
           "path": "egg-minecraft-multi.json",
@@ -520,7 +520,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-12T17:30:49Z",
+      "pushed_at": "2026-10-13T19:12:45Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -540,7 +540,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "75281c12eb4952ddfc1f1bf74280ab964a7a1ee2",
+      "upstream_sha": "0e003a5c30c3e5d74e3538d2f2b30a16a12b072c",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
@@ -777,9 +777,9 @@
               "default_value": "1"
             },
             {
-              "name": "Browser Support",
-              "env_variable": "BROWSER_SUPPORT",
-              "default_value": "1"
+              "name": "Browsers",
+              "env_variable": "BROWSER",
+              "default_value": "none"
             },
             {
               "name": "Browser Extra Args",
@@ -827,7 +827,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-09T09:27:54Z",
+      "pushed_at": "2026-10-13T19:12:47Z",
       "repo": "Shell-Eggs",
       "stars": 1,
       "topics": [
@@ -840,7 +840,7 @@
         "shell"
       ],
       "url": "https://github.com/PotenFYR-Studios/Shell-Eggs",
-      "upstream_sha": "36146d9aed7251d5e35fc77a849cdd8f2b46c275",
+      "upstream_sha": "1584d04720511b08cf0944804281b7f8cc86cbc3",
       "eggs": [
         {
           "path": "egg-shell-multi.json",

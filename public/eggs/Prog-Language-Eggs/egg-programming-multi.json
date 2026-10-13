@@ -478,13 +478,13 @@
       "field_type": "text"
     },
     {
-      "name": "Browser Support",
-      "description": "Prepare the baked browser automation stack - Chromium, Firefox ESR and Microsoft Edge with chromedriver/geckodriver (Playwright, Puppeteer, nodriver, Selenium, WebdriverIO): writable profile + browser caches and container-safe default flags (1 = Enabled, 0 = Disabled).",
-      "env_variable": "BROWSER_SUPPORT",
-      "default_value": "1",
+      "name": "Browsers",
+      "description": "Browser automation to enable (Playwright, Puppeteer, nodriver, Selenium, WebdriverIO). none = off (default); all; or a comma-separated list of chromium, firefox, edge - each optionally with a version that must match the baked build, e.g. chromium@130 or firefox,edge. Only the selected browsers are configured.",
+      "env_variable": "BROWSER",
+      "default_value": "none",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|boolean",
+      "rules": "nullable|string|max:120",
       "field_type": "text"
     },
     {
