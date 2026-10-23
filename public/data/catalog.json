@@ -1,6 +1,6 @@
 {
   "org": "PotenFYR-Studios",
-  "generated_at": "2026-10-13T19:12:49Z",
+  "generated_at": "2026-10-23T21:18:35Z",
   "counts": {
     "collections": 4,
     "eggs": 4,
@@ -520,7 +520,7 @@
       "language": "Shell",
       "license": "NOASSERTION",
       "open_issues": 0,
-      "pushed_at": "2026-10-13T19:12:45Z",
+      "pushed_at": "2026-10-23T21:18:35Z",
       "repo": "Prog-Language-Eggs",
       "stars": 1,
       "topics": [
@@ -540,7 +540,7 @@
         "rust-egg"
       ],
       "url": "https://github.com/PotenFYR-Studios/Prog-Language-Eggs",
-      "upstream_sha": "0e003a5c30c3e5d74e3538d2f2b30a16a12b072c",
+      "upstream_sha": "e13853e534e1e8d95844dde6d6e2aa25b2f4c7a5",
       "eggs": [
         {
           "path": "egg-programming-multi.json",
